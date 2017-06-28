@@ -13,7 +13,6 @@ module.exports = (canvas, c, mouse) => {
 		this.dx = 6 * Math.random() - 3;
 		this.dy = 6 * Math.random() - 3;
 
-
 // new Particle(canvas.width/2, canvas.height/2, 50, 100, 2, '#F2F3F4')
 
 		this.update = () => {
@@ -33,7 +32,7 @@ module.exports = (canvas, c, mouse) => {
 			c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
 			c.fillStyle = this.color;
 			c.shadowColor = this.color;
-			c.lineWidth = 2;
+			c.lineWidth = 1;
 			c.shadowBlur = 5;
 			c.strokeStyle = this.color;
 			c.stroke();

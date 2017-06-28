@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -105,6 +105,7 @@ var c = canvas.getContext('2d');
 var addNewBtn = document.getElementById('do-add-ball');
 var addAtomBtn = document.getElementById('do-add-atom');
 var makeBubblesBtn = document.getElementById('do-make-bubbles');
+var makeOrbBtn = document.getElementById('do-make-orb');
 var clearCanvasBtn = document.getElementById('do-clear-canvas');
 
 canvas.width = innerWidth;
@@ -115,9 +116,11 @@ var mouse = {
 	x: innerWidth / 2,
 	y: innerHeight / 2
 };
-var Circle = __webpack_require__(5)(canvas, c, mouse);
+var Circle = __webpack_require__(6)(canvas, c, mouse);
 var Atom = __webpack_require__(4)(canvas, c);
-var Bubble = __webpack_require__(11)(canvas, c, mouse);
+var Bubble = __webpack_require__(5)(canvas, c, mouse);
+var FallingOrb = __webpack_require__(7)(canvas, c);
+var Spark = __webpack_require__(9)(canvas, c);
 
 var colors = ['#2185C5', '#7ECEFD', '#FFF6E5', '#FF7F66'];
 
@@ -156,7 +159,10 @@ var circles = [];
 var atom = void 0;
 var timer = 0;
 var makeBubbles = false;
+var rainOrbs = false;;
 var bubbles = [];
+var sparks = [];
+var orbs = [];
 // Implementation
 function init() {
 	addNewBtn.addEventListener('click', function () {
@@ -164,7 +170,12 @@ function init() {
 	});
 
 	addAtomBtn.addEventListener('click', function () {
-		atom = new Atom(canvas.width / 2, canvas.height / 2, 10, '#F2F3F4');
+		atom = new Atom(canvas.width / 2, canvas.height / 2, 15, '#FA942E');
+		// atom = new Atom(canvas.width/2, canvas.height/2, 15, '#1AA4D1')
+	});
+
+	makeOrbBtn.addEventListener('click', function () {
+		rainOrbs = true;
 	});
 
 	makeBubblesBtn.addEventListener('click', function () {
@@ -176,6 +187,7 @@ function init() {
 		circles = [];
 		atom = null;
 		makeBubbles = false;
+		rainOrbs = false;
 	});
 }
 
@@ -187,23 +199,25 @@ function animate() {
 	// c.fillText("HTML CANVAS BOILERPLATE", mouse.x, mouse.y);
 	// circle1.update();
 	// circle2.followMouse(circle1);
-	circles.forEach(function (circle) {
-		circle.update();
-	});
+	if (circles.length) {
+		circles.forEach(function (circle) {
+			circle.update();
+		});
 
-	if (circles.length > 1) {
-		for (var i = 0; i < circles.length - 1; i++) {
-			for (var j = i + 1; j < circles.length; j++) {
-				circles[i].detectCollision(circles[j]);
+		if (circles.length > 1) {
+			for (var i = 0; i < circles.length - 1; i++) {
+				for (var j = i + 1; j < circles.length; j++) {
+					circles[i].detectCollision(circles[j]);
+				}
 			}
 		}
+
+		circles.forEach(function (circle) {
+			circle.collisionUpdated = false;
+		});
 	}
 
-	circles.forEach(function (circle) {
-		circle.collisionUpdated = false;
-	});
-
-	if (atom) atom.update(timer);
+	if (atom) atom.update(timer * 0.5);
 
 	if (makeBubbles) {
 		var randColor = Math.floor(3 * Math.random());
@@ -216,6 +230,47 @@ function animate() {
 			}
 		});
 	}
+
+	if ((timer % 100 === 0 || timer % 75 === 0) && rainOrbs) {
+		var x = Math.random() * canvas.width;
+		var y = -200;
+		var dx = 6 * Math.random() - 3;
+		var radius = 10 * Math.random() + 10;
+
+		orbs.push(new FallingOrb(x, y, dx, radius));
+	}
+
+	if (orbs.length) {
+		orbs = orbs.filter(function (orb) {
+			return !orb.destroy();
+		});
+
+		orbs.forEach(function (orb) {
+			orb.update();
+			if (orb.bounces) {
+				orb.bounces--;
+				var sparksNumber = 4 * Math.random() + 10;
+				for (var _i = 0; _i < sparksNumber; _i++) {
+					var _dx = 8 * Math.random() - 4;
+					var dy = Math.random() * orb.dy;
+					sparks.push(new Spark(orb.x, orb.y, _dx, dy));
+				}
+			}
+		});
+	}
+
+	if (sparks.length) {
+		sparks = sparks.filter(function (spark) {
+			return !spark.isOnFloor();
+		});
+
+		sparks.forEach(function (spark) {
+			spark.update();
+		});
+	}
+
+	if (sparks.length) console.log('sparks', sparks);
+	if (orbs.length) console.log('orbs', orbs);
 }
 
 init();
@@ -236,12 +291,11 @@ animate();
 
 var config = __webpack_require__(0);
 var helpers = __webpack_require__(1);
-var particle = __webpack_require__(6);
+var particle = __webpack_require__(8);
 
 module.exports = function (canvas, c) {
 
 	var Particle = particle(canvas, c);
-	var particles = ['', '', '', '', '', '', '', ''];
 	// const particles = new Array(10);
 
 	return function Atom(x, y, radius, color) {
@@ -265,7 +319,7 @@ module.exports = function (canvas, c) {
 		// console.log('this.particles', this.particles);
 
 
-		this.particles = [new Particle(canvas.width / 2, canvas.height / 2, 150, 300, 2, '#F2F3F4', 0, 1, 1), new Particle(canvas.width / 2, canvas.height / 2, 300, 150, 2, '#F2F3F4', 0, 1, 1), new Particle(canvas.width / 2, canvas.height / 2, 300, 150, 2, '#F2F3F4', 80 * (Math.PI / 180), 1, 1), new Particle(canvas.width / 2, canvas.height / 2, 300, 150, 2, '#F2F3F4', 260 * (Math.PI / 180), -1, -1)];
+		this.particles = [new Particle(canvas.width / 2, canvas.height / 2, 150, 300, 5, 0, 1, 1, 1), new Particle(canvas.width / 2, canvas.height / 2, 300, 150, 5, 0, 1, 1, 1), new Particle(canvas.width / 2, canvas.height / 2, 300, 150, 5, 80 * (Math.PI / 180), 1, 1, 1), new Particle(canvas.width / 2, canvas.height / 2, 300, 150, 5, 80 * (Math.PI / 180), -1, -1, 1), new Particle(canvas.width / 2, canvas.height / 2, 300, 150, 5, 240 * (Math.PI / 180), -1, -1, 1), new Particle(canvas.width / 2, canvas.height / 2, 150, 300, 5, 0, 1, 1, 1), new Particle(canvas.width / 2, canvas.height / 2, 300, 150, 5, 0, 1, 1, 1), new Particle(canvas.width / 2, canvas.height / 2, 300, 150, 5, 80 * (Math.PI / 180), 1, 1, 1), new Particle(canvas.width / 2, canvas.height / 2, 300, 150, 5, 80 * (Math.PI / 180), -1, -1, 1), new Particle(canvas.width / 2, canvas.height / 2, 300, 150, 5, 240 * (Math.PI / 180), -1, -1, 1), new Particle(canvas.width / 2, canvas.height / 2, 150, 300, 5, 0, 1, 1, 1), new Particle(canvas.width / 2, canvas.height / 2, 300, 150, 5, 0, 1, 1, 1), new Particle(canvas.width / 2, canvas.height / 2, 300, 150, 5, 80 * (Math.PI / 180), 1, 1, 1), new Particle(canvas.width / 2, canvas.height / 2, 300, 150, 5, 80 * (Math.PI / 180), -1, -1, 1), new Particle(canvas.width / 2, canvas.height / 2, 300, 150, 5, 240 * (Math.PI / 180), -1, -1, 1)];
 
 		// new Particle(canvas.width/2, canvas.height/2, 50, 100, 2, '#F2F3F4')
 
@@ -276,20 +330,21 @@ module.exports = function (canvas, c) {
 
 			if (timer % 10 === 0) {
 				_this.radius = _this.beatRadius;
+				c.shadowBlur = 75;
 			} else {
 				_this.radius = _this.originalRadius;
+				c.shadowBlur = 50;
 			}
 
 			_this.draw();
 		};
 
 		this.draw = function () {
-
 			c.beginPath();
 			c.arc(_this.x, _this.y, _this.radius, 0, Math.PI * 2, false);
 			c.fillStyle = _this.color;
-			c.shadowColor = '#F2F3F4';
-			c.shadowBlur = 50;
+			c.shadowColor = _this.color;
+			// c.shadowBlur = 50;
 			c.fill();
 			c.closePath();
 		};
@@ -298,6 +353,58 @@ module.exports = function (canvas, c) {
 
 /***/ }),
 /* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var config = __webpack_require__(0);
+var helpers = __webpack_require__(1);
+
+module.exports = function (canvas, c, mouse) {
+
+	var colors = ['#F2F3F4', '#148BE6', '#7AC243'];
+
+	return function Bubble(radius, randColor) {
+		var _this = this;
+
+		this.x = mouse.x;
+		this.y = mouse.y;
+		this.radius = radius;
+		this.color = colors[randColor];
+		this.dx = 6 * Math.random() - 3;
+		this.dy = 6 * Math.random() - 3;
+
+		// new Particle(canvas.width/2, canvas.height/2, 50, 100, 2, '#F2F3F4')
+
+		this.update = function () {
+			_this.x += _this.dx;
+			_this.y += _this.dy;
+			_this.radius -= 1;
+			_this.draw();
+		};
+
+		this.destroy = function () {
+			return _this.radius < 3;
+		};
+
+		this.draw = function () {
+
+			c.beginPath();
+			c.arc(_this.x, _this.y, _this.radius, 0, Math.PI * 2, false);
+			c.fillStyle = _this.color;
+			c.shadowColor = _this.color;
+			c.lineWidth = 1;
+			c.shadowBlur = 5;
+			c.strokeStyle = _this.color;
+			c.stroke();
+			c.closePath();
+		};
+	};
+};
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -432,7 +539,7 @@ module.exports = function (canvas, c, mouse) {
 };
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -442,24 +549,92 @@ var config = __webpack_require__(0);
 var helpers = __webpack_require__(1);
 
 module.exports = function (canvas, c) {
-	return function Particle(x, y, xOrbit, yOrbit, radius, color, offsetAngle, offsetX, offsetY) {
+	return function FallingOrb(x, y, dx, radius) {
 		var _this = this;
 
-		this.x = undefined;
-		this.y = undefined;
+		this.x = x;
+		this.y = y;
+		this.dx = dx;
+		this.dy = 30;
+		this.radius = radius;
+		this.color = '#F2F3F4';
+		this.bounces = 0;
+
+		this.update = function () {
+
+			_this.dy += config.GRAVITY;
+			_this.x += _this.dx;
+			_this.y += _this.dy;
+
+			if (_this.isOnFloor()) {
+				_this.bounces++;
+				if (_this.radius > 3) {
+					_this.dx *= 0.8;
+					_this.dy *= -0.5;
+					_this.radius *= 0.6;
+				}
+			}
+
+			_this.draw();
+		};
+
+		this.destroy = function () {
+			return _this.radius < 3;
+		};
+
+		this.isOnFloor = function () {
+			return canvas.height - _this.y < _this.radius + _this.dy;
+		};
+
+		this.draw = function () {
+			c.beginPath();
+			c.arc(_this.x, _this.y, _this.radius, 0, Math.PI * 2, false);
+			c.fillStyle = _this.color;
+			c.shadowColor = _this.color;
+			c.shadowBlur = 50;
+			c.fill();
+			c.closePath();
+		};
+	};
+};
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var config = __webpack_require__(0);
+var helpers = __webpack_require__(1);
+
+module.exports = function (canvas, c) {
+	return function Particle(x, y, xOrbit, yOrbit, radius, offsetAngle, offsetX, offsetY, reverse) {
+		var _this = this;
+
+		this.x;
+		this.y;
+		this.dx;
+		this.dy;
 		this.xOrbit = xOrbit;
 		this.yOrbit = yOrbit;
 		this.xCenter = x;
 		this.yCenter = y;
 		this.radius = radius;
-		this.color = color;
+		this.color = '#FA942E';
+		// this.color = '#1AA4D1';
 		this.orbitDistance;
 
 		// const rand = Math.random();
 
 		this.update = function (timer) {
-			_this.x = offsetX * xOrbit * Math.sin(0.05 * timer * Math.PI + offsetAngle) + _this.xCenter;
-			_this.y = offsetY * yOrbit * Math.cos(0.05 * timer * Math.PI) + _this.yCenter;
+			var newX = reverse * (offsetX * xOrbit) * Math.sin(0.05 * timer * Math.PI + offsetAngle) + _this.xCenter;
+			var newY = offsetY * yOrbit * Math.cos(0.05 * timer * Math.PI) + _this.yCenter;
+
+			_this.dx = newX - _this.x;
+			_this.dy = newY - _this.y;
+			_this.x = newX;
+			_this.y = newY;
 			_this.orbitDistance = helpers.distance(_this.x - _this.xCenter, _this.y - _this.yCenter);
 
 			_this.draw(timer);
@@ -469,8 +644,8 @@ module.exports = function (canvas, c) {
 			c.beginPath();
 			c.arc(_this.x, _this.y, _this.radius, 0, Math.PI * 2, false);
 			c.fillStyle = _this.color;
-			c.shadowColor = '#F2F3F4';
-			c.shadowBlur = 50;
+			c.shadowColor = _this.color;
+			c.shadowBlur = 40 - (Math.abs(_this.dx) + Math.abs(_this.dy));
 			c.fill();
 			c.closePath();
 
@@ -499,18 +674,7 @@ module.exports = function (canvas, c) {
 };
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(2);
-module.exports = __webpack_require__(3);
-
-
-/***/ }),
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -519,26 +683,32 @@ module.exports = __webpack_require__(3);
 var config = __webpack_require__(0);
 var helpers = __webpack_require__(1);
 
-module.exports = function (canvas, c, mouse) {
-
-	var colors = ['#F2F3F4', '#148BE6', '#7AC243'];
-
-	return function Bubble(radius, randColor) {
+module.exports = function (canvas, c) {
+	return function FallingOrb(x, y, dx, dy) {
 		var _this = this;
 
-		this.x = mouse.x;
-		this.y = mouse.y;
-		this.radius = radius;
-		this.color = colors[randColor];
-		this.dx = 6 * Math.random() - 3;
-		this.dy = 6 * Math.random() - 3;
-
-		// new Particle(canvas.width/2, canvas.height/2, 50, 100, 2, '#F2F3F4')
+		this.x = x;
+		this.y = y;
+		this.dx = dx;
+		this.dy = dy;
+		// this.dy = orbDy * ;
+		this.radius = 2;
+		this.color = '#F2F3F4';
 
 		this.update = function () {
+
+			_this.dy += config.GRAVITY;
 			_this.x += _this.dx;
 			_this.y += _this.dy;
-			_this.radius -= 1;
+
+			if (_this.isOnFloor()) {
+				console.log('on floor');
+				if (_this.radius > 3) {
+					_this.dy *= -0.6;
+					_this.radius *= 0.6;
+				}
+			}
+
 			_this.draw();
 		};
 
@@ -546,20 +716,29 @@ module.exports = function (canvas, c, mouse) {
 			return _this.radius < 3;
 		};
 
-		this.draw = function () {
+		this.isOnFloor = function () {
+			return canvas.height - _this.y < _this.radius + _this.dy;
+		};
 
+		this.draw = function () {
 			c.beginPath();
 			c.arc(_this.x, _this.y, _this.radius, 0, Math.PI * 2, false);
 			c.fillStyle = _this.color;
 			c.shadowColor = _this.color;
-			c.lineWidth = 2;
-			c.shadowBlur = 5;
-			c.strokeStyle = _this.color;
-			c.stroke();
+			c.shadowBlur = 50;
+			c.fill();
 			c.closePath();
 		};
 	};
 };
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(2);
+module.exports = __webpack_require__(3);
+
 
 /***/ })
 /******/ ]);
