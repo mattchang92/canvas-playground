@@ -98,9 +98,17 @@ module.exports = (canvas, c, mouse) => {
 			this.draw();
 		};
 
-		this.isTouching = (obj) => (
-			helpers.distance((obj.x - this.x), (obj.y - this.y)) < (this.radius + obj.radius)
-		);
+		this.isTouching = (obj) => {
+			let vObj = {};
+			let vThis = {};
+			vObj.x = obj.x + 2* obj.dx;
+			vObj.y = obj.y + 2* obj.dy;
+			vThis.x = this.x + 2* this.dx;
+			vThis.y = this.y + 2* this.dy;
+
+			return helpers.distance((vObj.x - vThis.x), (vObj.y - vThis.y)) < (this.radius + obj.radius)
+			// helpers.distance((obj.x - this.x), (obj.y - this.y)) < (this.radius + obj.radius)
+		};
 
 		this.isOnFloor = () => {
 			return (canvas.height - this.y) < (this.radius);

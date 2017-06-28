@@ -3,6 +3,8 @@
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 const addNewBtn = document.getElementById('do-add-ball');
+const addAtomBtn = document.getElementById('do-add-atom');
+const clearCanvasBtn = document.getElementById('do-clear-canvas');
 
 canvas.width = innerWidth;
 canvas.height = innerHeight * 0.975;
@@ -14,6 +16,7 @@ let mouse = {
 	y: innerHeight / 2
 };
 const Circle = require('./models/circle')(canvas, c, mouse);
+const Atom = require('./models/atom')(canvas, c);
 
 const colors = [
 	'#2185C5',
@@ -55,19 +58,30 @@ function randomColor(colors) {
 let circle1;
 let circle2;
 let circles = [];
+let atom;
+let timer = 0;
 
 // Implementation
 function init() {
-	// circle1 = new Circle(100,100,80, 'blue');
-	// circle2 = new Circle(500,500,80, 'blue');
-	// circle.draw();
 	addNewBtn.addEventListener('click', () => {
 		circles.push(new Circle(100,100,80, 'blue'));
 	})
+
+	addAtomBtn.addEventListener('click', () => {
+		atom = new Atom(canvas.width/2, canvas.height/2, 10, '#F2F3F4')
+	})
+	atom = new Atom(canvas.width/2, canvas.height/2, 10, '#F2F3F4')
+
+	clearCanvasBtn.addEventListener('click', () => {
+		circles = [];
+		atom = null;
+	})
+
 }
 
 // Animation Loop
 function animate() {
+	timer++;
 	requestAnimationFrame(animate);
 	c.clearRect(0, 0, canvas.width, canvas.height);
 	// c.fillText("HTML CANVAS BOILERPLATE", mouse.x, mouse.y);
@@ -88,6 +102,8 @@ function animate() {
 	circles.forEach((circle) => {
 		circle.collisionUpdated = false;
 	})
+
+	if (atom) atom.update(timer);
 }
 
 init();
