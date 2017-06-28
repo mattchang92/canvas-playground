@@ -104,6 +104,7 @@ var canvas = document.querySelector('canvas');
 var c = canvas.getContext('2d');
 var addNewBtn = document.getElementById('do-add-ball');
 var addAtomBtn = document.getElementById('do-add-atom');
+var makeBubblesBtn = document.getElementById('do-make-bubbles');
 var clearCanvasBtn = document.getElementById('do-clear-canvas');
 
 canvas.width = innerWidth;
@@ -116,6 +117,7 @@ var mouse = {
 };
 var Circle = __webpack_require__(5)(canvas, c, mouse);
 var Atom = __webpack_require__(4)(canvas, c);
+var Bubble = __webpack_require__(11)(canvas, c, mouse);
 
 var colors = ['#2185C5', '#7ECEFD', '#FFF6E5', '#FF7F66'];
 
@@ -153,7 +155,8 @@ var circle2 = void 0;
 var circles = [];
 var atom = void 0;
 var timer = 0;
-
+var makeBubbles = false;
+var bubbles = [];
 // Implementation
 function init() {
 	addNewBtn.addEventListener('click', function () {
@@ -163,11 +166,16 @@ function init() {
 	addAtomBtn.addEventListener('click', function () {
 		atom = new Atom(canvas.width / 2, canvas.height / 2, 10, '#F2F3F4');
 	});
-	atom = new Atom(canvas.width / 2, canvas.height / 2, 10, '#F2F3F4');
+
+	makeBubblesBtn.addEventListener('click', function () {
+		makeBubbles = true;
+	});
+	// atom = new Atom(canvas.width/2, canvas.height/2, 10, '#F2F3F4')
 
 	clearCanvasBtn.addEventListener('click', function () {
 		circles = [];
 		atom = null;
+		makeBubbles = false;
 	});
 }
 
@@ -185,7 +193,7 @@ function animate() {
 
 	if (circles.length > 1) {
 		for (var i = 0; i < circles.length - 1; i++) {
-			for (var j = 1; j < circles.length; j++) {
+			for (var j = i + 1; j < circles.length; j++) {
 				circles[i].detectCollision(circles[j]);
 			}
 		}
@@ -196,6 +204,18 @@ function animate() {
 	});
 
 	if (atom) atom.update(timer);
+
+	if (makeBubbles) {
+		var randColor = Math.floor(3 * Math.random());
+
+		bubbles.push(new Bubble(50, randColor));
+		bubbles.forEach(function (bubble) {
+			bubble.update();
+			if (bubble.destroy()) {
+				bubbles.shift();
+			}
+		});
+	}
 }
 
 init();
@@ -404,6 +424,7 @@ module.exports = function (canvas, c, mouse) {
 			c.beginPath();
 			c.arc(_this.x, _this.y, _this.radius, 0, Math.PI * 2, false);
 			c.fillStyle = _this.color;
+			c.shadowBlur = 0;
 			c.fill();
 			c.closePath();
 		};
@@ -484,6 +505,61 @@ module.exports = function (canvas, c) {
 __webpack_require__(2);
 module.exports = __webpack_require__(3);
 
+
+/***/ }),
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var config = __webpack_require__(0);
+var helpers = __webpack_require__(1);
+
+module.exports = function (canvas, c, mouse) {
+
+	var colors = ['#F2F3F4', '#148BE6', '#7AC243'];
+
+	return function Bubble(radius, randColor) {
+		var _this = this;
+
+		this.x = mouse.x;
+		this.y = mouse.y;
+		this.radius = radius;
+		this.color = colors[randColor];
+		this.dx = 6 * Math.random() - 3;
+		this.dy = 6 * Math.random() - 3;
+
+		// new Particle(canvas.width/2, canvas.height/2, 50, 100, 2, '#F2F3F4')
+
+		this.update = function () {
+			_this.x += _this.dx;
+			_this.y += _this.dy;
+			_this.radius -= 1;
+			_this.draw();
+		};
+
+		this.destroy = function () {
+			return _this.radius < 3;
+		};
+
+		this.draw = function () {
+
+			c.beginPath();
+			c.arc(_this.x, _this.y, _this.radius, 0, Math.PI * 2, false);
+			c.fillStyle = _this.color;
+			c.shadowColor = _this.color;
+			c.lineWidth = 2;
+			c.shadowBlur = 5;
+			c.strokeStyle = _this.color;
+			c.stroke();
+			c.closePath();
+		};
+	};
+};
 
 /***/ })
 /******/ ]);

@@ -4,7 +4,9 @@ const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 const addNewBtn = document.getElementById('do-add-ball');
 const addAtomBtn = document.getElementById('do-add-atom');
+const makeBubblesBtn = document.getElementById('do-make-bubbles');
 const clearCanvasBtn = document.getElementById('do-clear-canvas');
+
 
 canvas.width = innerWidth;
 canvas.height = innerHeight * 0.975;
@@ -17,6 +19,7 @@ let mouse = {
 };
 const Circle = require('./models/circle')(canvas, c, mouse);
 const Atom = require('./models/atom')(canvas, c);
+const Bubble = require('./models/bubble')(canvas, c, mouse);
 
 const colors = [
 	'#2185C5',
@@ -60,7 +63,8 @@ let circle2;
 let circles = [];
 let atom;
 let timer = 0;
-
+let makeBubbles = false;
+let bubbles = [];
 // Implementation
 function init() {
 	addNewBtn.addEventListener('click', () => {
@@ -70,11 +74,16 @@ function init() {
 	addAtomBtn.addEventListener('click', () => {
 		atom = new Atom(canvas.width/2, canvas.height/2, 10, '#F2F3F4')
 	})
-	atom = new Atom(canvas.width/2, canvas.height/2, 10, '#F2F3F4')
+
+	makeBubblesBtn.addEventListener('click', () => {
+		makeBubbles = true;
+	})
+	// atom = new Atom(canvas.width/2, canvas.height/2, 10, '#F2F3F4')
 
 	clearCanvasBtn.addEventListener('click', () => {
 		circles = [];
 		atom = null;
+		makeBubbles = false;
 	})
 
 }
@@ -93,7 +102,7 @@ function animate() {
 
 	if (circles.length > 1) {
 		for (let i = 0; i < circles.length - 1; i++) {
-			for (let j = 1; j < circles.length; j++) {
+			for (let j = i + 1; j < circles.length; j++) {
 				circles[i].detectCollision(circles[j]);
 			}
 		}
@@ -104,6 +113,19 @@ function animate() {
 	})
 
 	if (atom) atom.update(timer);
+
+	if (makeBubbles) {
+		const randColor = Math.floor(3 * Math.random());
+
+		bubbles.push(new Bubble(50, randColor));
+		bubbles.forEach((bubble) => {
+			bubble.update();
+			if (bubble.destroy()) {
+				bubbles.shift();
+			}
+		})
+
+	}
 }
 
 init();
