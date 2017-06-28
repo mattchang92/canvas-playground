@@ -14,45 +14,46 @@ module.exports = (canvas, c) => {
 		this.originalRadius = radius;
 		this.beatRadius = radius * 1.2;
 		this.color = color;
-		// this.particle = [];
 
-		// this.particles = particles.map(() => {
-		// 	const rand1 = Math.random();
-		// 	const rand2 = Math.random();
-		//
-		// 	const particle = new Particle(canvas.width/2, canvas.height/2, (rand1 * 300), (rand2 * 300), 2, '#F2F3F4', (rand1 * 2 * Math.PI));
-		// 	return particle;
-		// })
-		// console.log('this.particles', this.particles);
-
+		let delays = ['','','','','',''];
+		delays = delays.map((item) => (Math.random()/5 + 0.8))
 
 		this.particles = [
-			new Particle(canvas.width/2, canvas.height/2, 150, 300, 5, 0, 1, 1, 1),
-			new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, 0, 1, 1, 1),
-			new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (80 * (Math.PI/180)), 1 , 1, 1),
-			new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (80 * (Math.PI/180)), -1, -1, 1),
-			new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (240 * (Math.PI/180)), -1 , -1, 1),
-			new Particle(canvas.width/2, canvas.height/2, 150, 300, 5, 0, 1, 1, 1),
-			new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, 0, 1, 1, 1),
-			new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (80 * (Math.PI/180)), 1 , 1, 1),
-			new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (80 * (Math.PI/180)), -1, -1, 1),
-			new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (240 * (Math.PI/180)), -1 , -1, 1),
-			new Particle(canvas.width/2, canvas.height/2, 150, 300, 5, 0, 1, 1, 1),
-			new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, 0, 1, 1, 1),
-			new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (80 * (Math.PI/180)), 1 , 1, 1),
-			new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (80 * (Math.PI/180)), -1, -1, 1),
-			new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (240 * (Math.PI/180)), -1 , -1, 1),
+			new Particle(canvas.width/2, canvas.height/2, 150, 300, 5, 0, 1, 1),
+			new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, 0, 1, 1),
+			new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (80 * (Math.PI/180)), -1, -1),
+			new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (80 * (Math.PI/180)), 1 , 1),
+			new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (240 * (Math.PI/180)), -1 , -1),
+
+			// new Particle(canvas.width/2, canvas.height/2, 150, 300, 5, 0, 1, 1, 0.05),
+			// new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, 0, 1, 1, 0.05),
+			// new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (80 * (Math.PI/180)), 1 , 1, 0.05),
+			// new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (80 * (Math.PI/180)), -1, -1, 0.05),
+			// new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (240 * (Math.PI/180)), -1 , -1, 0.05),
+
+			// new Particle(canvas.width/2, canvas.height/2, 150, 300, 5, 0, 1, 1, 0.1),
+			// new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, 0, 1, 1, 0.1),
+			// new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (80 * (Math.PI/180)), 1 , 1, 0.1),
+			// new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (80 * (Math.PI/180)), -1, -1, 0.1),
+			// new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (240 * (Math.PI/180)), -1 , -1, 0.1),
 
 		];
 
 // new Particle(canvas.width/2, canvas.height/2, 50, 100, 2, '#F2F3F4')
 
 		this.update = (timer) => {
-			this.particles.forEach((particle) => {
-				particle.update(timer);
-			});
+			const delayedTimer = delays.map((delay) => {
+				return timer * delay;
+			})
 
-			if (timer % 10 === 0) {
+			for (let i = 0; i < this.particles.length; i++) {
+				let time = delayedTimer[i % 6];
+
+				if (this.particles[i].delay) time -= this.particles[i].delay;
+				this.particles[i].update(time);
+			}
+
+			if (parseInt(timer) % 10 === 0) {
 				this.radius = this.beatRadius;
 				c.shadowBlur = 75;
 			} else {

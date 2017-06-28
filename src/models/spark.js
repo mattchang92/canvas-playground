@@ -18,7 +18,6 @@ module.exports = (canvas, c) => {
 			this.y += this.dy;
 
 			if (this.isOnFloor()) {
-				console.log('on floor');
 				if (this.radius > 3) {
 					this.dy *= -0.6;
 					this.radius *= 0.6

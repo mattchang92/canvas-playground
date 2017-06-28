@@ -1,2 +1,5 @@
 node_modules
 .DS_Store
+dist/js/canvas.bundle.js
+dist/js/canvas.bundle.js.map
+dist/css/style.css.map

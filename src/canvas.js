@@ -7,6 +7,8 @@ const addAtomBtn = document.getElementById('do-add-atom');
 const makeBubblesBtn = document.getElementById('do-make-bubbles');
 const makeOrbBtn = document.getElementById('do-make-orb');
 const clearCanvasBtn = document.getElementById('do-clear-canvas');
+const stopAnimationBtn = document.getElementById('do-stop-animation');
+const restartAnimationBtn = document.getElementById('do-restart-animation');
 
 
 canvas.width = innerWidth;
@@ -60,7 +62,7 @@ function randomColor(colors) {
 
 
 // Objects
-
+let animation;
 let circle1;
 let circle2;
 let circles = [];
@@ -78,8 +80,9 @@ function init() {
 	})
 
 	addAtomBtn.addEventListener('click', () => {
-		atom = new Atom(canvas.width/2, canvas.height/2, 15, '#FA942E')
-		// atom = new Atom(canvas.width/2, canvas.height/2, 15, '#1AA4D1')
+		// atom = new Atom(canvas.width/2, canvas.height/2, 15, '#FA942E')
+		atom = new Atom(canvas.width/2, canvas.height/2, 15, '#1AA4D1')
+		// atom = new Atom(canvas.width/2, canvas.height/2, 15, '#F2F3F4')
 	})
 
 	makeOrbBtn.addEventListener('click', () => {
@@ -89,7 +92,6 @@ function init() {
 	makeBubblesBtn.addEventListener('click', () => {
 		makeBubbles = true;
 	})
-	// atom = new Atom(canvas.width/2, canvas.height/2, 10, '#F2F3F4')
 
 	clearCanvasBtn.addEventListener('click', () => {
 		circles = [];
@@ -98,12 +100,25 @@ function init() {
 		rainOrbs = false;
 	})
 
+	stopAnimationBtn.addEventListener('click', () => {
+		if (animation) {
+			cancelAnimationFrame(animation);
+			animation = undefined;
+		}
+	})
+
+	restartAnimationBtn.addEventListener('click', () => {
+		if (!animation) {
+			animate();
+		}
+	})
+
 }
 
 // Animation Loop
 function animate() {
 	timer++;
-	requestAnimationFrame(animate);
+	animation = requestAnimationFrame(animate);
 	c.clearRect(0, 0, canvas.width, canvas.height);
 	// c.fillText("HTML CANVAS BOILERPLATE", mouse.x, mouse.y);
 	// circle1.update();
@@ -126,7 +141,7 @@ function animate() {
 		})
 	}
 
-	if (atom) atom.update(timer * 0.5);
+	if (atom) atom.update(timer * 0.7);
 
 	if (makeBubbles) {
 		const randColor = Math.floor(3 * Math.random());
@@ -178,8 +193,6 @@ function animate() {
 		})
 	}
 
-	if (sparks.length) console.log('sparks', sparks);
-	if (orbs.length) console.log('orbs', orbs);
 
 }
 

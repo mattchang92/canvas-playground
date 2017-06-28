@@ -3,7 +3,7 @@ const helpers = require('../helpers');
 
 
 module.exports = (canvas, c) => {
-	return function Particle(x, y, xOrbit, yOrbit, radius, offsetAngle, offsetX, offsetY, reverse) {
+	return function Particle(x, y, xOrbit, yOrbit, radius, offsetAngle, offsetX, offsetY, delay) {
 		this.x;
 		this.y;
 		this.dx;
@@ -12,15 +12,16 @@ module.exports = (canvas, c) => {
 		this.yOrbit = yOrbit;
 		this.xCenter = x;
 		this.yCenter = y;
-		this.radius = radius;
-		this.color = '#FA942E';
-		// this.color = '#1AA4D1';
+		this.radius = delay ? (1 - delay) * radius : radius;
+		// this.color = '#FA942E';
+		this.delay = delay
+		this.color = '#1AA4D1';
 		this.orbitDistance;
 
 		// const rand = Math.random();
 
 		this.update = (timer) => {
-			const newX = reverse * (offsetX * xOrbit) * (Math.sin(0.05 * timer * Math.PI + offsetAngle)) + this.xCenter;
+			const newX = (offsetX * xOrbit) * (Math.sin(0.05 * timer * Math.PI + offsetAngle)) + this.xCenter;
 			const newY = (offsetY * yOrbit) * (Math.cos(0.05 * timer * Math.PI)) + this.yCenter;
 
 			this.dx = newX - this.x;
@@ -47,7 +48,6 @@ module.exports = (canvas, c) => {
 			// } else {
 			// 	startAngle = Math.acos((this.y - this.yCenter)/(this.orbitDistance)) + (0.5 * Math.PI);
 			// }
-			// console.log('orbit distance', this.orbitDistance);
 			// // const startAngle = -0.05 * timer * Math.PI;
 			// // const startAngle = -(Math.sin(0.05 * timer * Math.PI));
 			// // const endAngle = (Math.cos(0.05 * timer * Math.PI));

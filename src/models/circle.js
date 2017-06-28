@@ -83,7 +83,6 @@ module.exports = (canvas, c, mouse) => {
 
 		this.detectCollision = (secondBall) => {
 			if (this.isTouching(secondBall) && !this.collisionUpdated && !secondBall.collisionUpdated) {
-				console.log('is touching');
 				this.dx = (this.dx * (this.mass - secondBall.mass) + (2 * secondBall.mass * secondBall.dx)) / (this.mass + secondBall.mass);
 				this.dy = (this.dy * (this.mass - secondBall.mass) + (2 * secondBall.mass * secondBall.dy)) / (this.mass + secondBall.mass);
 				secondBall.dx = (secondBall.dx * (secondBall.mass - this.mass) + (2 * this.mass * this.dx)) / (this.mass + secondBall.mass);
