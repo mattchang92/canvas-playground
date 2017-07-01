@@ -3,3 +3,4 @@ node_modules
 dist/js/canvas.bundle.js
 dist/js/canvas.bundle.js.map
 dist/css/style.css.map
+dist/mp3

@@ -2,7 +2,7 @@ module.exports = (canvas, c) => {
 	return function Bar(x, y, width, color) {
 		this.x = x;
 		this.y = y;
-		this.height = 500;
+		this.height = 0;
 		this.width = width;
 		this.color = color;
 

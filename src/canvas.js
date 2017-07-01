@@ -1,4 +1,6 @@
-$(document).ready(() => {
+window.onload = () => {
+
+// $(document).ready(() => {
 	// Initial Setup
 	const canvas = document.querySelector('canvas');
 	const c = canvas.getContext('2d');
@@ -216,16 +218,37 @@ $(document).ready(() => {
 
 		analyser.getByteFrequencyData(frequencyData);
 
+
 		let accumulator = 0;
+		let risingBins = 0;
 		for (let i = 0; i < frequencyData.length; i++) {
 			if ((i+1) % 32 === 0) {
+				var previousVisualizerData = visualizerData.slice();
 				visualizerData[Math.floor(((i+1) / 32)) -1] = Math.floor(accumulator / 32);
 				accumulator = 0;
+				if (previousVisualizerData.length === visualizerData.length) {
+					for (let j = 0; j < visualizerData.length; j++) {
+						if (visualizerData[j] > previousVisualizerData[j]) risingBins++;
+					}
+				}
+
 			} else {
 				accumulator += frequencyData[i];
 			}
 		}
-		// console.log('visualizerData', visualizerData);
+
+		if (atom) {
+			let beatStrength = 1;
+			if (risingBins >= 16) {
+				beatStrength = 1.4
+			} else if (risingBins > 12) {
+				beatStrength = 1.25;
+			} else if (risingBins > 8) {
+				beatStrength = 1.1;
+			}
+			atom.pulse(beatStrength);
+		}
+
 		if (visualizer.length) {
 			for (let i = 0; i < visualizer.length; i++) {
 				visualizer[i].update(visualizerData[i], timer)
@@ -233,10 +256,8 @@ $(document).ready(() => {
 
 		}
 
-		// console.log('freqeuncyData', frequencyData);
-
 	}
 
 	init();
 	animate();
-})
+}

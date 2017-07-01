@@ -5,15 +5,16 @@ const particle = require('./orbitParticles');
 module.exports = (canvas, c) => {
 
 	const Particle = particle(canvas, c);
-	// const particles = new Array(10);
 
 	return function Atom(x, y, radius, color) {
 		this.x = x;
 		this.y = y;
 		this.radius = radius;
 		this.originalRadius = radius;
-		this.beatRadius = radius * 1.2;
+		this.beatRadius = radius * 1.3;
+		this.maxRadius = radius * 1.8;
 		this.color = color;
+		this.visualizeMode = false;
 
 		let delays = ['','','','','',''];
 		delays = delays.map((item) => (Math.random()/5 + 0.8))
@@ -53,14 +54,26 @@ module.exports = (canvas, c) => {
 				this.particles[i].update(time);
 			}
 
-			if (parseInt(timer) % 10 === 0) {
-				this.radius = this.beatRadius;
-				c.shadowBlur = 75;
+			if (!this.visualizeMode) {
+				if (parseInt(timer) % 10 === 0) {
+					this.radius = this.beatRadius;
+				} else {
+					this.radius = this.originalRadius;
+				}
 			} else {
-				this.radius = this.originalRadius;
-				c.shadowBlur = 50;
+				if (this.radius > this.originalRadius) {
+					this.radius *= 0.9;
+				} else {
+					this.radius = this.originalRadius;
+				}
 			}
 
+			this.draw();
+		};
+
+		this.pulse = (beatStrength) => {
+			this.visualizeMode = true;
+			if (this.radius < this.maxRadius) this.radius *= beatStrength;
 			this.draw();
 		};
 
@@ -69,7 +82,7 @@ module.exports = (canvas, c) => {
 			c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
 			c.fillStyle = this.color;
 			c.shadowColor = this.color;
-			// c.shadowBlur = 50;
+			c.shadowBlur = 50;
 			c.fill();
 			c.closePath();
 		};
