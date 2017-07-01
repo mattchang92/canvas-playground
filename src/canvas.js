@@ -108,8 +108,8 @@ $(document).ready(() => {
 		})
 
 		startVisualizerBtn.addEventListener('click', () => {
-			for (let i = 0; i < 32; i++) {
-				visualizer.push(new Bar(i * (canvas.width/32), canvas.height, canvas.width/32, 'red'));
+			for (let i = 0; i < 16; i++) {
+				visualizer.push(new Bar(i * (canvas.width/16), canvas.height, canvas.width/16, 'red'));
 			}
 		})
 
@@ -225,7 +225,7 @@ $(document).ready(() => {
 				accumulator += frequencyData[i];
 			}
 		}
-		console.log('visualizerData', visualizerData);
+		// console.log('visualizerData', visualizerData);
 		if (visualizer.length) {
 			for (let i = 0; i < visualizer.length; i++) {
 				visualizer[i].update(visualizerData[i], timer)
