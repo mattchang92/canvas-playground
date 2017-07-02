@@ -1,6 +1,5 @@
 window.onload = () => {
 
-// $(document).ready(() => {
 	// Initial Setup
 	const canvas = document.querySelector('canvas');
 	const c = canvas.getContext('2d');
@@ -12,11 +11,17 @@ window.onload = () => {
 	const clearCanvasBtn = document.getElementById('do-clear-canvas');
 	const stopAnimationBtn = document.getElementById('do-stop-animation');
 	const restartAnimationBtn = document.getElementById('do-restart-animation');
+	const authenticateSpotifyBtn = document.getElementById('do-connect-spotify');
 
+	const apiActions = require('./apiActions');
 
 	const ctx = new AudioContext();
+	ctx.crossOrigin = 'anonymous';
+	
+
 	const audio = document.getElementById('myAudio');
 	const audioSrc = ctx.createMediaElementSource(audio);
+	// audioSrc.crossOrigin = 'anonymous';
 	const analyser = ctx.createAnalyser();
 
 	audioSrc.connect(analyser);
@@ -134,6 +139,10 @@ window.onload = () => {
 			if (!animation) {
 				animate();
 			}
+		})
+
+		authenticateSpotifyBtn.addEventListener('click', () => {
+			apiActions.authenticateSpotify();
 		})
 
 	}
@@ -259,5 +268,5 @@ window.onload = () => {
 	}
 
 	init();
-	animate();
+	// animate();
 }
