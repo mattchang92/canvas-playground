@@ -14,7 +14,6 @@ const authenticateSpotify = (data) => {
 }
 
 const requestTokens = (credentials) => {
-
 	// const header = new Buffer(config.spotify.clientId + ':' + config.spotify.clientSecret).toString('base64');
 
 	return helpers.apiPost(config.spotify.tokensUrl,
@@ -31,7 +30,6 @@ const requestTokens = (credentials) => {
 			},
 		}
 	)
-
 }
 
 module.exports = {

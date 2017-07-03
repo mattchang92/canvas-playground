@@ -16,6 +16,7 @@ const getRequest = (data, url, type) => {
 	const req = {
 		method: type ? type : 'POST',
 		headers: getHeaders(),
+		mode: 'no-cors',
 		credentials: 'same-origin',
 	};
 
@@ -30,12 +31,13 @@ const getRequest = (data, url, type) => {
 const getHeaders = () => {
 	let headers = new Headers();
 
-	headers.append('Accept', 'application/json'),
-		headers.append('Content-Type', 'application/json');
+	// headers.append('Accept', 'application/json'),
+	headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
 	return headers;
 };
 
 module.exports = {
 	authenticateSpotify,
+	getRequest,
 };
