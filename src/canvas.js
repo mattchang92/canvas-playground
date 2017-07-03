@@ -1,5 +1,6 @@
 window.onload = () => {
-
+	const when = require('when');
+	const config = require('../config');
 	// Initial Setup
 	const canvas = document.querySelector('canvas');
 	const c = canvas.getContext('2d');
@@ -17,7 +18,7 @@ window.onload = () => {
 
 	const ctx = new AudioContext();
 	ctx.crossOrigin = 'anonymous';
-	
+
 
 	const audio = document.getElementById('myAudio');
 	const audioSrc = ctx.createMediaElementSource(audio);
@@ -142,7 +143,19 @@ window.onload = () => {
 		})
 
 		authenticateSpotifyBtn.addEventListener('click', () => {
-			apiActions.authenticateSpotify();
+			window.location.href = config.spotify.authUrl + '/?client_id=' + config.spotify.clientID +
+				'&response_type=code&redirect_uri=' + config.spotify.redirectUri +
+				'&show_dialog=true';
+			// when(apiActions.authenticateSpotify(), (response) => {
+			// 	when(response.text(), (convertedResponse) => {
+			// 		// document.open();
+			// 		// document.write(convertedResponse);
+			// 		// document.close();
+			// 		window.location.href = convertedResponse;
+			// 		console.log('convertedResposne', convertedResponse);
+			// 	})
+			// 	// console.log('response', response.text());
+			// });
 		})
 
 	}
