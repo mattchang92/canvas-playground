@@ -2,7 +2,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 module.exports = {
-	entry: ['./src/canvas.js', './styles/index.scss'],
+	entry: ['./src/app.js', './styles/index.scss'],
 	output: {
 		path: __dirname + '/dist/js',
 		filename: 'canvas.bundle.js'

@@ -1,4 +1,5 @@
 const handler = require('./handler');
+const when = require('when');
 
 module.exports = {
 	// authenticateSpotify: (req, res, next) => {
@@ -23,6 +24,10 @@ module.exports = {
 		const tokens = handler.requestTokens(req.query);
 		// console.log('req----------', req.query);
 		// console.log('res', res.query);
-		res.status(200).send(tokens);
+		when(tokens, (tokens) => {
+			console.log('tokens', tokens);
+
+			res.status(200).send(tokens);
+		})
 	}
 };

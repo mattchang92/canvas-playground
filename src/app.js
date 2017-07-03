@@ -13,6 +13,8 @@ window.onload = () => {
 	const stopAnimationBtn = document.getElementById('do-stop-animation');
 	const restartAnimationBtn = document.getElementById('do-restart-animation');
 	const authenticateSpotifyBtn = document.getElementById('do-connect-spotify');
+	const replayBtn = document.getElementById('do-replay');
+	const stopBtn = document.getElementById('do-stop');
 
 	const apiActions = require('./apiActions');
 
@@ -39,6 +41,7 @@ window.onload = () => {
 		x: innerWidth / 2,
 		y: innerHeight / 2
 	};
+
 	const Circle = require('./models/circle')(canvas, c, mouse);
 	const Atom = require('./models/atom')(canvas, c);
 	const Bubble = require('./models/bubble')(canvas, c, mouse);
@@ -127,36 +130,40 @@ window.onload = () => {
 			atom = null;
 			makeBubbles = false
 			rainOrbs = false;
-		})
+		});
 
 		stopAnimationBtn.addEventListener('click', () => {
 			if (animation) {
 				cancelAnimationFrame(animation);
 				animation = undefined;
 			}
-		})
+		});
 
 		restartAnimationBtn.addEventListener('click', () => {
 			if (!animation) {
 				animate();
 			}
-		})
+		});
 
 		authenticateSpotifyBtn.addEventListener('click', () => {
 			window.location.href = config.spotify.authUrl + '/?client_id=' + config.spotify.clientID +
 				'&response_type=code&redirect_uri=' + config.spotify.redirectUri +
 				'&show_dialog=true';
-			// when(apiActions.authenticateSpotify(), (response) => {
-			// 	when(response.text(), (convertedResponse) => {
-			// 		// document.open();
-			// 		// document.write(convertedResponse);
-			// 		// document.close();
-			// 		window.location.href = convertedResponse;
-			// 		console.log('convertedResposne', convertedResponse);
-			// 	})
-			// 	// console.log('response', response.text());
-			// });
-		})
+		});
+
+		replayBtn.addEventListener('click', () => {
+			if (audio) {
+				audio.currentTime = 0;
+				audio.play();
+			}
+		});
+
+		stopBtn.addEventListener('click', () => {
+			if (audio) {
+				// audio.currentTime = 0;
+				audio.pause();
+			}
+		});
 
 	}
 
@@ -165,9 +172,7 @@ window.onload = () => {
 		timer++;
 		animation = requestAnimationFrame(animate);
 		c.clearRect(0, 0, canvas.width, canvas.height);
-		// c.fillText("HTML CANVAS BOILERPLATE", mouse.x, mouse.y);
-		// circle1.update();
-		// circle2.followMouse(circle1);
+
 		if (circles.length) {
 			circles.forEach((circle) => {
 				circle.update();
@@ -281,5 +286,5 @@ window.onload = () => {
 	}
 
 	init();
-	// animate();
+	animate();
 }

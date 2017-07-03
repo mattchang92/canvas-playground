@@ -14,16 +14,10 @@ const authenticateSpotify = (data) => {
 }
 
 const requestTokens = (credentials) => {
-	console.log('credentials', credentials.code);
-	console.log('config', config.spotify.tokensUrl);
-	console.log('config', config.spotify.redirectUri);
-	console.log('config', config.spotify.clientID);
-	console.log('config', config.spotify.clientSecret);
 
-	const header = new Buffer(config.spotify.clientId + ':' + config.spotify.clientSecret).toString('base64');
-	console.log('header', header);
+	// const header = new Buffer(config.spotify.clientId + ':' + config.spotify.clientSecret).toString('base64');
 
-	const tokens = helpers.apiPost(config.spotify.tokensUrl,
+	return helpers.apiPost(config.spotify.tokensUrl,
 		{
 			data: {
 				grant_type: 'authorization_code',
@@ -38,10 +32,6 @@ const requestTokens = (credentials) => {
 		}
 	)
 
-	return when(tokens, (tokens) => {
-		console.log('tokens', tokens);
-		return tokens;
-	})
 }
 
 module.exports = {
