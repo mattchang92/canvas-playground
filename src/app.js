@@ -5,12 +5,20 @@ const config = require('../config');
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/appContainer.jsx';
+import ModelsConstructors from './models/index';
 
-ReactDOM.render(React.createElement(App), document.getElementById('app'));
-
+console.log('app level this', this);
 	// Initial Setup
-	// const canvas = document.querySelector('canvas');
-	// const c = canvas.getContext('2d');
+	const canvas = document.querySelector('canvas');
+	const c = canvas.getContext('2d');
+
+	let mouse = {
+		x: innerWidth / 2,
+		y: innerHeight / 2
+	};
+
+	const constructors = ModelsConstructors(canvas, c, mouse);
+
 	// const addNewBtn = document.getElementById('do-add-ball');
 	// const addAtomBtn = document.getElementById('do-add-atom');
 	// const makeBubblesBtn = document.getElementById('do-make-bubbles');
@@ -25,29 +33,26 @@ ReactDOM.render(React.createElement(App), document.getElementById('app'));
 	//
 	// const apiActions = require('./apiActions');
 	//
-	// const ctx = new AudioContext();
-	// ctx.crossOrigin = 'anonymous';
+	const ctx = new AudioContext();
+	ctx.crossOrigin = 'anonymous';
 	//
 	//
-	// const audio = document.getElementById('myAudio');
-	// const audioSrc = ctx.createMediaElementSource(audio);
-	// // audioSrc.crossOrigin = 'anonymous';
-	// const analyser = ctx.createAnalyser();
-	//
-	// audioSrc.connect(analyser);
-	// analyser.connect(ctx.destination);
-	//
-	// const frequencyData = new Uint8Array(analyser.frequencyBinCount);
-	//
-	// canvas.width = innerWidth;
-	// canvas.height = innerHeight * 0.975;
+	const audio = document.getElementById('myAudio');
+	const audioSrc = ctx.createMediaElementSource(audio);
+	audioSrc.crossOrigin = 'anonymous';
+	const analyser = ctx.createAnalyser();
+
+	audioSrc.connect(analyser);
+	analyser.connect(ctx.destination);
+
+	const frequencyData = new Uint8Array(analyser.frequencyBinCount);
+
+	canvas.width = innerWidth;
+	canvas.height = innerHeight * 0.975;
 	//
 	//
 	// // Variables
-	// let mouse = {
-	// 	x: innerWidth / 2,
-	// 	y: innerHeight / 2
-	// };
+
 	//
 	// const Circle = require('./models/circle')(canvas, c, mouse);
 	// const Atom = require('./models/atom')(canvas, c);
@@ -69,42 +74,21 @@ ReactDOM.render(React.createElement(App), document.getElementById('app'));
 	//
 	//
 	// // Event Listeners
-	// addEventListener("mousemove", function(event) {
-	// 	mouse.x = event.clientX;
-	// 	mouse.y = event.clientY;
-	// });
-	//
-	// addEventListener("resize", function() {
-	// 	canvas.width = innerWidth;
-	// 	canvas.height = innerHeight;
-	//
-	// 	init();
-	// });
-	//
-	// // Utility Functions
-	// function randomIntFromRange(min,max) {
-	// 	return Math.floor(Math.random() * (max - min + 1) + min);
-	// }
-	//
-	// function randomColor(colors) {
-	// 	return colors[Math.floor(Math.random() * colors.length)];
-	// }
-	//
-	//
+	addEventListener("mousemove", function(event) {
+		mouse.x = event.clientX;
+		mouse.y = event.clientY;
+	});
+
+	addEventListener("resize", function() {
+		canvas.width = innerWidth;
+		canvas.height = innerHeight;
+
+		// init();
+	});
+
 	// // Objects
 	// let animation;
-	// let circle1;
-	// let circle2;
-	// let circles = [];
-	// let atom;
-	// let timer = 0;
-	// let makeBubbles = false;
-	// let rainOrbs = false;;
-	// let bubbles = [];
-	// let sparks = [];
-	// let orbs = [];
-	// let visualizer = [];
-	// let visualizerData = [];
+
 	// // Implementation
 	// function init() {
 	// 	addNewBtn.addEventListener('click', () => {
@@ -318,3 +302,24 @@ ReactDOM.render(React.createElement(App), document.getElementById('app'));
 	// init();
 	// animate();
 // }
+
+const data = {
+	circles: [],
+	atom: undefined,
+	timer: 0,
+	makeBubbles: false,
+	rainOrbs: false,
+	bubbles: [],
+	sparks: [],
+	orbs: [],
+	visualizer: [],
+	visualizerData: [],
+}
+
+
+const options = {
+	audio,
+	data,
+}
+
+ReactDOM.render(<App options={options}/>, document.getElementById('app'));

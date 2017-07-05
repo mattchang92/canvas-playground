@@ -3,6 +3,9 @@ import React from 'react';
 export default class Controls extends React.Component {
 	constructor(props) {
 		super(props);
+		// console.log('controls props', this.props.options.audio.play);
+		console.log('component this', this);
+		this.audio = this.props.options.audio;
 	}
 
 	render() {
@@ -17,7 +20,7 @@ export default class Controls extends React.Component {
 				<button id="do-stop-animation">Stop Animation</button>
 				<button id="do-restart-animation">Start Animation</button>
 				<button id="do-connect-spotify">Connect With Spotify</button>
-				<button id="do-replay">Replay</button>
+				<button id="do-replay" onClick={this.audio.play.bind(this.audio)}>Replay</button>
 				<button id="do-stop">Stop</button>
 			</div>
 		)

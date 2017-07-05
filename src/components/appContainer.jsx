@@ -15,13 +15,17 @@ const store = createStore(uiState, applyMiddleware(ReduxPromise));
 export default class App extends React.Component {
 	constructor(props) {
 		super(props);
+		// console.log('this.props', this.props);
+		console.log('animation frame', requestAnimationFrame);
 	}
 
 	render() {
 		return (
 			<Provider store={store}>
 				<div>
-					<Controls />
+					<Controls
+						{...this.props}
+					/>
 					<Canvas />
 					<Audio />
 				</div>
