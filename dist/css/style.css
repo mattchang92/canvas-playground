@@ -13,4 +13,7 @@ div {
       -ms-flex-align: start;
           align-items: start; }
 
+.root {
+  position: absolute; }
+
 /*# sourceMappingURL=style.css.map*/

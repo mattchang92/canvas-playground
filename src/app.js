@@ -1,4 +1,3 @@
-// window.onload = () => {
 const when = require('when');
 const config = require('../config');
 
@@ -9,165 +8,113 @@ import ModelsConstructors from './models/index';
 
 console.log('app level this', this);
 	// Initial Setup
-	const canvas = document.querySelector('canvas');
-	const c = canvas.getContext('2d');
+const canvas = document.querySelector('canvas');
+const c = canvas.getContext('2d');
 
-	let mouse = {
-		x: innerWidth / 2,
-		y: innerHeight / 2
-	};
+let mouse = {
+	x: innerWidth / 2,
+	y: innerHeight / 2
+};
 
-	const constructors = ModelsConstructors(canvas, c, mouse);
 
-	// const addNewBtn = document.getElementById('do-add-ball');
-	// const addAtomBtn = document.getElementById('do-add-atom');
-	// const makeBubblesBtn = document.getElementById('do-make-bubbles');
-	// const makeOrbBtn = document.getElementById('do-make-orb');
-	// const startVisualizerBtn = document.getElementById('do-start-visualizer');
-	// const clearCanvasBtn = document.getElementById('do-clear-canvas');
-	// const stopAnimationBtn = document.getElementById('do-stop-animation');
-	// const restartAnimationBtn = document.getElementById('do-restart-animation');
-	// const authenticateSpotifyBtn = document.getElementById('do-connect-spotify');
-	// const replayBtn = document.getElementById('do-replay');
-	// const stopBtn = document.getElementById('do-stop');
-	//
-	// const apiActions = require('./apiActions');
-	//
-	const ctx = new AudioContext();
-	ctx.crossOrigin = 'anonymous';
-	//
-	//
-	const audio = document.getElementById('myAudio');
-	const audioSrc = ctx.createMediaElementSource(audio);
-	audioSrc.crossOrigin = 'anonymous';
-	const analyser = ctx.createAnalyser();
-
-	audioSrc.connect(analyser);
-	analyser.connect(ctx.destination);
-
-	const frequencyData = new Uint8Array(analyser.frequencyBinCount);
-
+addEventListener("resize", function() {
 	canvas.width = innerWidth;
-	canvas.height = innerHeight * 0.975;
-	//
-	//
-	// // Variables
+	canvas.height = innerHeight;
+	// init();
+});
 
-	//
-	// const Circle = require('./models/circle')(canvas, c, mouse);
-	// const Atom = require('./models/atom')(canvas, c);
-	// const Bubble = require('./models/bubble')(canvas, c, mouse);
-	// const FallingOrb = require('./models/fallingOrb')(canvas, c);
-	// const Spark = require('./models/spark')(canvas, c);
-	// const Bar = require('./models/bar')(canvas, c);
-	//
-	// const colors = [
-	// 	'#2185C5',
-	// 	'#7ECEFD',
-	// 	'#FFF6E5',
-	// 	'#FF7F66'
-	// ];
-	//
-	// const GRAVITY = 0.4;
-	// const FRICTION = 0;
-	// // const FRICTION = 0.1;
-	//
-	//
-	// // Event Listeners
-	addEventListener("mousemove", function(event) {
-		mouse.x = event.clientX;
-		mouse.y = event.clientY;
-	});
+addEventListener("mousemove", function(event) {
+	mouse.x = event.clientX;
+	mouse.y = event.clientY;
+});
 
-	addEventListener("resize", function() {
-		canvas.width = innerWidth;
-		canvas.height = innerHeight;
+const constructors = ModelsConstructors(canvas, c, mouse);
 
-		// init();
-	});
+const ctx = new AudioContext();
+ctx.crossOrigin = 'anonymous';
 
-	// // Objects
-	// let animation;
 
-	// // Implementation
-	// function init() {
-	// 	addNewBtn.addEventListener('click', () => {
-	// 		circles.push(new Circle(100,100,80, 'blue'));
-	// 	})
-	//
-	// 	addAtomBtn.addEventListener('click', () => {
-	// 		// atom = new Atom(canvas.width/2, canvas.height/2, 15, '#FA942E')
-	// 		atom = new Atom(canvas.width/2, canvas.height/2, 15, '#1AA4D1')
-	// 		// atom = new Atom(canvas.width/2, canvas.height/2, 15, '#F2F3F4')
-	// 	})
-	//
-	// 	makeOrbBtn.addEventListener('click', () => {
-	// 		rainOrbs = true;
-	// 	})
-	//
-	// 	makeBubblesBtn.addEventListener('click', () => {
-	// 		makeBubbles = true;
-	// 	})
-	//
-	// 	startVisualizerBtn.addEventListener('click', () => {
-	// 		for (let i = 0; i < 16; i++) {
-	// 			visualizer.push(new Bar(i * (canvas.width/16), canvas.height, canvas.width/16, 'red'));
-	// 		}
-	// 	})
-	//
-	// 	clearCanvasBtn.addEventListener('click', () => {
-	// 		circles = [];
-	// 		visualizer = [];
-	// 		atom = null;
-	// 		makeBubbles = false
-	// 		rainOrbs = false;
-	// 	});
-	//
-	// 	stopAnimationBtn.addEventListener('click', () => {
-	// 		if (animation) {
-	// 			cancelAnimationFrame(animation);
-	// 			animation = undefined;
-	// 		}
-	// 	});
-	//
-	// 	restartAnimationBtn.addEventListener('click', () => {
-	// 		if (!animation) {
-	// 			animate();
-	// 		}
-	// 	});
-	//
-	// 	authenticateSpotifyBtn.addEventListener('click', () => {
-	// 		// window.location.href = config.spotify.authUrl + '/?client_id=' + config.spotify.clientID +
-	// 		// 	'&response_type=code&redirect_uri=' + config.spotify.redirectUri +
-	// 		// 	'&show_dialog=true';
-	// 		// const authToken = fetch(apiActions.getRequest(
-	// 			// null,
-	// 		window.location.href = config.spotify.authUrl + '/?client_id=' + config.spotify.clientID +
-	// 				'&response_type=token&redirect_uri=' + config.spotify.redirectUriClient +
-	// 				'&show_dialog=true',
-	// 			'GET'
-	// 		// ))
-	//
-	// 		// when(authToken, (token) => {
-	// 		// 	console.log('token received', token.text());
-	// 		// })
-	// 	});
-	//
-	// 	replayBtn.addEventListener('click', () => {
-	// 		if (audio) {
-	// 			audio.currentTime = 0;
-	// 			audio.play();
-	// 		}
-	// 	});
-	//
-	// 	stopBtn.addEventListener('click', () => {
-	// 		if (audio) {
-	// 			// audio.currentTime = 0;
-	// 			audio.pause();
-	// 		}
-	// 	});
-	// }
-	//
+const audio = document.getElementById('myAudio');
+const audioSrc = ctx.createMediaElementSource(audio);
+audioSrc.crossOrigin = 'anonymous';
+const analyser = ctx.createAnalyser();
+
+audioSrc.connect(analyser);
+analyser.connect(ctx.destination);
+
+const frequencyData = new Uint8Array(analyser.frequencyBinCount);
+
+canvas.width = innerWidth;
+canvas.height = innerHeight * 0.975;
+
+const Circle = constructors.circle;
+const Atom = constructors.atom;
+const Bubble = constructors.bubble;
+const FallingOrb = constructors.fallingOrb;
+const Spark = constructors.spark;
+const Bar = constructors.bar;
+
+
+const addBall = () => {
+	data.circles.push(new Circle(100,100,80, 'blue'));
+}
+
+const createAtom = () => {
+	// adata.tom = new Atom(canvas.width/2, canvas.height/2, 15, '#FA942E')
+	data.atom = new Atom(canvas.width/2, canvas.height/2, 15, '#1AA4D1')
+	// data.atom = new Atom(canvas.width/2, canvas.height/2, 15, '#F2F3F4')
+}
+
+
+const startRainingOrbs = () => {
+	data.rainOrbs = true;
+}
+
+const startBubbles = () => {
+	data.makeBubbles = true;
+}
+
+
+const startVisualizer = () => {
+	for (let i = 0; i < 16; i++) {
+		data.visualizer.push(new Bar(i * (canvas.width/16), canvas.height, canvas.width/16, 'red'));
+	}
+
+	console.log('starting visualizer', data.visualizer);
+}
+
+const clearCanvas = () => {
+	data.circles = [];
+	data.visualizer = [];
+	data.atom = null;
+	data.makeBubbles = false;
+	data.rainOrbs = false;
+}
+
+const stopAnimation = () => {
+	if (data.animation) {
+		cancelAnimationFrame(data.animation);
+		data.animation = undefined;
+	}
+}
+
+const restartAnimation = () => {
+	if (!data.animation) animate();
+}
+
+const authenticateSpotify = () => {
+	// window.location.href = config.spotify.authUrl + '/?client_id=' + config.spotify.clientID +
+	// 	'&response_type=code&redirect_uri=' + config.spotify.redirectUri +
+	// 	'&show_dialog=true';
+	// const authToken = fetch(apiActions.getRequest(
+	// null,
+	window.location.href = config.spotify.authUrl + '/?client_id=' + config.spotify.clientID +
+		'&response_type=token&redirect_uri=' + config.spotify.redirectUriClient +
+		'&show_dialog=true',
+		'GET'
+
+}
+
 	// const urlParamsArray = window.location.href.includes('#') ?
 	// 	window.location.href.split('#')[1].split('&') : undefined;
 	//
@@ -182,128 +129,8 @@ console.log('app level this', this);
 	// console.log('urlParamsObj', urlParamsObj);
 	//
 	// // Animation Loop
-	// function animate() {
-	// 	timer++;
-	// 	animation = requestAnimationFrame(animate);
-	// 	c.clearRect(0, 0, canvas.width, canvas.height);
-	//
-	// 	if (circles.length) {
-	// 		circles.forEach((circle) => {
-	// 			circle.update();
-	// 		});
-	//
-	// 		if (circles.length > 1) {
-	// 			for (let i = 0; i < circles.length - 1; i++) {
-	// 				for (let j = i + 1; j < circles.length; j++) {
-	// 					circles[i].detectCollision(circles[j]);
-	// 				}
-	// 			}
-	// 		}
-	//
-	// 		circles.forEach((circle) => {
-	// 			circle.collisionUpdated = false;
-	// 		})
-	// 	}
-	//
-	// 	if (atom) atom.update(timer * 0.7);
-	//
-	// 	if (makeBubbles) {
-	// 		const randColor = Math.floor(3 * Math.random());
-	//
-	// 		bubbles.push(new Bubble(50, randColor));
-	// 		bubbles.forEach((bubble) => {
-	// 			bubble.update();
-	// 			if (bubble.destroy()) {
-	// 				bubbles.shift();
-	// 			}
-	// 		})
-	// 	}
-	//
-	// 	if ((timer % 100 === 0 || timer % 75 === 0) && rainOrbs) {
-	// 		const x = Math.random() * canvas.width;
-	// 		const y = -200;
-	// 		const dx = 6 * Math.random() - 3;
-	// 		const radius = 10 * Math.random() + 10;
-	//
-	// 		orbs.push(new FallingOrb(x, y, dx, radius))
-	// 	}
-	//
-	// 	if (orbs.length) {
-	// 		orbs = orbs.filter((orb) => {
-	// 			return !orb.destroy();
-	// 		});
-	//
-	// 		orbs.forEach((orb) => {
-	// 			orb.update();
-	// 			if (orb.bounces) {
-	// 				orb.bounces--;
-	// 				const sparksNumber = 4 * Math.random() + 10;
-	// 				for (let i = 0; i < sparksNumber; i++) {
-	// 					const dx = 8 * Math.random() - 4;
-	// 					const dy = Math.random() * orb.dy;
-	// 					sparks.push(new Spark(orb.x, orb.y, dx, dy))
-	// 				}
-	// 			}
-	// 		})
-	// 	}
-	//
-	// 	if (sparks.length) {
-	// 		sparks = sparks.filter((spark) => {
-	// 			return !spark.isOnFloor();
-	// 		});
-	//
-	// 		sparks.forEach((spark) => {
-	// 			spark.update();
-	// 		})
-	// 	}
-	//
-	// 	analyser.getByteFrequencyData(frequencyData);
-	//
-	//
-	// 	let accumulator = 0;
-	// 	let risingBins = 0;
-	// 	for (let i = 0; i < frequencyData.length; i++) {
-	// 		if ((i+1) % 32 === 0) {
-	// 			var previousVisualizerData = visualizerData.slice();
-	// 			visualizerData[Math.floor(((i+1) / 32)) -1] = Math.floor(accumulator / 32);
-	// 			accumulator = 0;
-	// 			if (previousVisualizerData.length === visualizerData.length) {
-	// 				for (let j = 0; j < visualizerData.length; j++) {
-	// 					if (visualizerData[j] > previousVisualizerData[j]) risingBins++;
-	// 				}
-	// 			}
-	//
-	// 		} else {
-	// 			accumulator += frequencyData[i];
-	// 		}
-	// 	}
-	//
-	// 	if (atom) {
-	// 		let beatStrength = 1;
-	// 		if (risingBins >= 16) {
-	// 			beatStrength = 1.4
-	// 		} else if (risingBins > 12) {
-	// 			beatStrength = 1.25;
-	// 		} else if (risingBins > 8) {
-	// 			beatStrength = 1.1;
-	// 		}
-	// 		atom.pulse(beatStrength);
-	// 	}
-	//
-	// 	if (visualizer.length) {
-	// 		for (let i = 0; i < visualizer.length; i++) {
-	// 			visualizer[i].update(visualizerData[i], timer)
-	// 		}
-	//
-	// 	}
-	//
-	// }
-	//
-	// init();
-	// animate();
-// }
-
 const data = {
+	animation: undefined,
 	circles: [],
 	atom: undefined,
 	timer: 0,
@@ -316,10 +143,144 @@ const data = {
 	visualizerData: [],
 }
 
+function animate() {
+	data.timer++;
+	data.animation = requestAnimationFrame(animate);
+	c.clearRect(0, 0, canvas.width, canvas.height);
+
+	if (data.circles.length) {
+		data.circles.forEach((circle) => {
+			circle.update();
+		});
+
+		if (data.circles.length > 1) {
+			for (let i = 0; i < data.circles.length - 1; i++) {
+				for (let j = i + 1; j < data.circles.length; j++) {
+					data.circles[i].detectCollision(data.circles[j]);
+				}
+			}
+		}
+
+		data.circles.forEach((circle) => {
+			circle.collisionUpdated = false;
+		})
+	}
+
+	if (data.atom) data.atom.update(data.timer * 0.7);
+
+	if (data.makeBubbles) {
+		const randColor = Math.floor(3 * Math.random());
+
+		data.bubbles.push(new Bubble(50, randColor));
+		data.bubbles.forEach((bubble) => {
+			bubble.update();
+			if (bubble.destroy()) {
+				data.bubbles.shift();
+			}
+		})
+	}
+
+	if ((data.timer % 100 === 0 || data.timer % 75 === 0) && data.rainOrbs) {
+		const x = Math.random() * canvas.width;
+		const y = -200;
+		const dx = 6 * Math.random() - 3;
+		const radius = 10 * Math.random() + 10;
+
+		data.orbs.push(new FallingOrb(x, y, dx, radius))
+	}
+
+	if (data.orbs.length) {
+		data.orbs = data.orbs.filter((orb) => {
+			return !orb.destroy();
+		});
+
+		data.orbs.forEach((orb) => {
+			orb.update();
+			if (orb.bounces) {
+				orb.bounces--;
+				const sparksNumber = 4 * Math.random() + 10;
+				for (let i = 0; i < sparksNumber; i++) {
+					const dx = 8 * Math.random() - 4;
+					const dy = Math.random() * orb.dy;
+					data.sparks.push(new Spark(orb.x, orb.y, dx, dy))
+				}
+			}
+		})
+	}
+
+	if (data.sparks.length) {
+		data.sparks = data.sparks.filter((spark) => {
+			return !spark.isOnFloor();
+		});
+
+		data.sparks.forEach((spark) => {
+			spark.update();
+		})
+	}
+
+	analyser.getByteFrequencyData(frequencyData);
+
+
+	let accumulator = 0;
+	let risingBins = 0;
+	for (let i = 0; i < frequencyData.length; i++) {
+		if ((i+1) % 32 === 0) {
+			var previousVisualizerData = data.visualizerData.slice();
+			data.visualizerData[Math.floor(((i+1) / 32)) -1] = Math.floor(accumulator / 32);
+			accumulator = 0;
+			if (previousVisualizerData.length === data.visualizerData.length) {
+				for (let j = 0; j < data.visualizerData.length; j++) {
+					if (data.visualizerData[j] > previousVisualizerData[j]) risingBins++;
+				}
+			}
+
+		} else {
+			accumulator += frequencyData[i];
+		}
+	}
+
+	// if (atom) {
+	// 	let beatStrength = 1;
+	// 	if (risingBins >= 16) {
+	// 		beatStrength = 1.4
+	// 	} else if (risingBins > 12) {
+	// 		beatStrength = 1.25;
+	// 	} else if (risingBins > 8) {
+	// 		beatStrength = 1.1;
+	// 	}
+	// 	atom.pulse(beatStrength);
+	// }
+
+	if (data.visualizer.length) {
+		for (let i = 0; i < data.visualizer.length; i++) {
+			data.visualizer[i].update(data.visualizerData[i], data.timer)
+		}
+
+	}
+
+}
+
+
+
+
+const callbacks = {
+	startVisualizer,
+	authenticateSpotify,
+	startBubbles,
+	stopAnimation,
+	restartAnimation,
+	clearCanvas,
+	startRainingOrbs,
+	createAtom,
+	addBall,
+}
+
 
 const options = {
 	audio,
 	data,
+	callbacks,
+	animate,
 }
 
 ReactDOM.render(<App options={options}/>, document.getElementById('app'));

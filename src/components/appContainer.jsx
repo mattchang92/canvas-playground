@@ -19,10 +19,14 @@ export default class App extends React.Component {
 		console.log('animation frame', requestAnimationFrame);
 	}
 
+	componentDidMount() {
+		this.props.options.animate();
+	}
+
 	render() {
 		return (
 			<Provider store={store}>
-				<div>
+				<div className="root">
 					<Controls
 						{...this.props}
 					/>
