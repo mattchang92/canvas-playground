@@ -278,7 +278,7 @@ const options = {
 	data,
 	callbacks,
 	animate,
-	token: urlParamsObj ? urlParamsObj.token : null,
+	token: urlParamsObj ? urlParamsObj.access_token : null,
 }
 
 ReactDOM.render(<App options={options}/>, document.getElementById('app'));

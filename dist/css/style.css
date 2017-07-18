@@ -2,8 +2,6 @@ body {
   margin: 0;
   background-color: #1E1E1E;
   overflow: hidden; }
-  body h1 {
-    color: green; }
 
 div {
   display: -webkit-box;
@@ -20,11 +18,48 @@ div {
   position: fixed;
   height: 100vh;
   width: 30vw;
-  background-color: white;
   top: 0;
   left: 100vw;
-  transition: left .5s; }
+  transition: left .5s;
+  border: thin solid white; }
   .visualizer-container.active {
     left: 70vw; }
+  .visualizer-container div.tracks-area {
+    top: 50px;
+    position: absolute;
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    border-top: thin solid white;
+    color: #2ebd59;
+    overflow: hidden; }
+    .visualizer-container div.tracks-area .playlists-container {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      width: 100%; }
+      .visualizer-container div.tracks-area .playlists-container .playlist {
+        width: 100%;
+        height: 100%;
+        padding-left: 25px;
+        border: thin solid white;
+        line-height: 50px;
+        overflow: hidden; }
+        .visualizer-container div.tracks-area .playlists-container .playlist.collapsed {
+          height: 0; }
+        .visualizer-container div.tracks-area .playlists-container .playlist:hover {
+          opacity: 0.8;
+          font-size: 1.1em;
+          background-color: #515151;
+          transition: all 0.3s; }
 
 /*# sourceMappingURL=style.css.map*/
