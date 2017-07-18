@@ -23,7 +23,7 @@ div {
   width: 60vw;
   top: 0;
   left: 100vw;
-  transition: left .5s;
+  transition: left ease-out .75s;
   border: thin solid white; }
   .visualizer-container.active {
     left: 70vw; }
@@ -51,14 +51,14 @@ div {
       -webkit-box-direction: normal;
           -ms-flex-direction: column;
               flex-direction: column;
-      width: 50%; }
+      width: 50%;
+      transition: left 0.5s; }
       .visualizer-container div.tracks-area .playlists-container.inactive {
-        -webkit-animation: slideLeftOut ease-out 0.5s 1;
-                animation: slideLeftOut ease-out 0.5s 1;
+        left: -100%;
+        -webkit-animation: slideLeftOut 0.5s 1;
+                animation: slideLeftOut 0.5s 1;
         -webkit-animation-fill-mode: forwards;
                 animation-fill-mode: forwards; }
-        .visualizer-container div.tracks-area .playlists-container.inactive .playlist {
-          border-right: none; }
       .visualizer-container div.tracks-area .playlists-container .playlist {
         width: 90%;
         height: 100%;
@@ -83,8 +83,8 @@ div {
           -ms-flex-direction: column;
               flex-direction: column; }
       .visualizer-container div.tracks-area .songs-container.active {
-        -webkit-animation: slideLeftIn ease-out 0.5s 1;
-                animation: slideLeftIn ease-out 0.5s 1;
+        -webkit-animation: slideLeftIn 0.5s 1;
+                animation: slideLeftIn 0.5s 1;
         -webkit-animation-fill-mode: forwards;
                 animation-fill-mode: forwards; }
       .visualizer-container div.tracks-area .songs-container .playlist {

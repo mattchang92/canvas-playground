@@ -9,6 +9,7 @@ const actions = {
 		return { type: actionTypes.UPDATE_PLAYLISTS, payload: playlists }
 	},
 	selectPlaylist: (playlist) => {
+		console.log('selecting playlist', playlist);
 		return { type: actionTypes.SELECT_PLAYLIST, payload: playlist }
 	},
 	setUserId: (id) => {

@@ -23,7 +23,8 @@ module.exports = (canvas, c) => {
 
 
 			c.fillStyle = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
-
+			c.shadowColor = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
+			c.shadowBlur = 50;
 			// c.fillStyle = this.color;
 			// c.shadowColor = this.color;
 			// c.shadowBlur = 50;

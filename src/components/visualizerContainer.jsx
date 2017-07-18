@@ -51,6 +51,7 @@ class VisualizerContainer extends React.Component {
 			<div className={this.props.visualizerActive ? "active visualizer-container" : "visualizer-container"}>
 				Visualizer
 				<button onClick={() => this.props.fetchPlaylists(this.props.options.token)}>Fetch playlists</button>
+				<button onClick={() => this.props.selectPlaylist()}>Back</button>
 				<div className="tracks-area">
 					<div className={this.props.selectedPlaylist ? "playlists-container inactive" : "playlists-container"}>
 						{this.displayPlaylists()}
@@ -77,6 +78,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		fetchPlaylists: apiActions.fetchPlaylists(dispatch),
 		fetchUserData: apiActions.fetchUserData(dispatch),
+		selectPlaylist: () => dispatch(uiActions.selectPlaylist(null)),
 		setToken: uiActions.setToken(dispatch),
 	}
 };

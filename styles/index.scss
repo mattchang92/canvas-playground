@@ -23,7 +23,7 @@ div {
 	width: 60vw;
 	top: 0;
 	left: 100vw;
-	transition: left .5s;
+	transition: left ease-out .75s;
 	border: thin solid white;
 
 	&.active {
@@ -46,14 +46,15 @@ div {
 			display: flex;
 			flex-direction: column;
 			width: 50%;
-			// transition: left 2s;
+			transition: left 0.5s;
 
 			&.inactive {
-				animation: slideLeftOut ease-out 0.5s 1;
+				left: -100%;
+				animation: slideLeftOut 0.5s 1;
 				animation-fill-mode: forwards;
 
 				.playlist {
-					border-right: none;
+					// border-right: none;
 				}
 			}
 
@@ -82,7 +83,7 @@ div {
 			flex-direction: column;
 
 			&.active {
-				animation: slideLeftIn ease-out 0.5s 1;
+				animation: slideLeftIn 0.5s 1;
 				animation-fill-mode: forwards;
 			}
 
