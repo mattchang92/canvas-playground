@@ -1,9 +1,14 @@
 import actions from '../actions/actionTypes';
 
-export default function formStore(state = {}, action) {
+const initialState = {
+	visualizerActive: false,
+};
+
+export default function formStore(state = initialState, action) {
 	switch(action.type) {
-		case actions.TEST:
-			return Object.assign({}, state, { test: true });
+		case actions.TOGGLE_VISUALIZER: {
+			return Object.assign({}, state, { visualizerActive: !state.visualizerActive });
+		}
 		default:
 			return state;
 	}

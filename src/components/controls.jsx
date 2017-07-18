@@ -1,12 +1,28 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import uiActions from '../actions/uiActions';
 
-export default class Controls extends React.Component {
+// @connect(
+// 	undefined,
+// 	(dispatch) => ({
+// 		toggleVisualizer: () => {
+// 			dispatch(uiActions.toggleVisualizer());
+// 		},
+// 	})
+// )
+
+
+class Controls extends React.Component {
 	constructor(props) {
 		super(props);
 		// console.log('controls props', this.props.options.audio.play);
 		console.log('component this', this);
 		this.audio = this.props.options.audio;
 		this.callbacks = this.props.options.callbacks;
+	}
+
+	toggleVisualizer() {
+		this.props.dispatch(uiActions.toggleVisualizer());
 	}
 
 	render() {
@@ -23,7 +39,11 @@ export default class Controls extends React.Component {
 				<button id="do-connect-spotify" onClick={this.callbacks.authenticateSpotify.bind(this.callbacks)}>Connect With Spotify</button>
 				<button id="do-replay" onClick={this.audio.play.bind(this.audio)}>Replay</button>
 				<button id="do-stop" onClick={this.audio.pause.bind(this.audio)}>Stop</button>
+				<button id="do-toggle-visualizer" onClick={() => this.toggleVisualizer()}>Visualizer Menu</button>
 			</div>
 		)
 	}
 }
+
+
+export default connect()(Controls);

@@ -5,18 +5,15 @@ import { Provider } from 'react-redux';
 
 import Controls from './controls.jsx';
 import MusicPlayer from './musicPlayer.jsx';
-import Canvas from './canvas.jsx';
-import Audio from './audio.jsx';
+import VisualizerContainer from './visualizerContainer.jsx';
 
 import uiState from '../reducers/uiState';
 
-const store = createStore(uiState, applyMiddleware(ReduxPromise));
+const store = createStore(uiState, {});
 
 export default class App extends React.Component {
 	constructor(props) {
 		super(props);
-		// console.log('this.props', this.props);
-		console.log('animation frame', requestAnimationFrame);
 	}
 
 	componentDidMount() {
@@ -30,8 +27,7 @@ export default class App extends React.Component {
 					<Controls
 						{...this.props}
 					/>
-					<Canvas />
-					<Audio />
+				<VisualizerContainer {...this.props}/>
 				</div>
 			</Provider>
 		)

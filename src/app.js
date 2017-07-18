@@ -6,7 +6,6 @@ import ReactDOM from 'react-dom';
 import App from './components/appContainer.jsx';
 import ModelsConstructors from './models/index';
 
-console.log('app level this', this);
 	// Initial Setup
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
@@ -115,18 +114,18 @@ const authenticateSpotify = () => {
 
 }
 
-	// const urlParamsArray = window.location.href.includes('#') ?
-	// 	window.location.href.split('#')[1].split('&') : undefined;
-	//
-	// const urlParamsObj = {};
-	//
-	// if (urlParamsArray) {
-	// 	urlParamsArray.forEach((param) => {
-	// 		param = param.split('=');
-	// 		urlParamsObj[param[0]] = param[1];
-	// 	})
-	// }
-	// console.log('urlParamsObj', urlParamsObj);
+const urlParamsArray = window.location.href.includes('#') ?
+	window.location.href.split('#')[1].split('&') : undefined;
+
+const urlParamsObj = {};
+
+if (urlParamsArray) {
+	urlParamsArray.forEach((param) => {
+		param = param.split('=');
+		urlParamsObj[param[0]] = param[1];
+	})
+}
+console.log('urlParamsObj', urlParamsObj);
 	//
 	// // Animation Loop
 const data = {
@@ -239,25 +238,23 @@ function animate() {
 		}
 	}
 
-	// if (atom) {
-	// 	let beatStrength = 1;
-	// 	if (risingBins >= 16) {
-	// 		beatStrength = 1.4
-	// 	} else if (risingBins > 12) {
-	// 		beatStrength = 1.25;
-	// 	} else if (risingBins > 8) {
-	// 		beatStrength = 1.1;
-	// 	}
-	// 	atom.pulse(beatStrength);
-	// }
+	if (data.atom) {
+		let beatStrength = 1;
+		if (risingBins >= 16) {
+			beatStrength = 1.4
+		} else if (risingBins > 12) {
+			beatStrength = 1.25;
+		} else if (risingBins > 8) {
+			beatStrength = 1.1;
+		}
+		data.atom.pulse(beatStrength);
+	}
 
 	if (data.visualizer.length) {
 		for (let i = 0; i < data.visualizer.length; i++) {
 			data.visualizer[i].update(data.visualizerData[i], data.timer)
 		}
-
 	}
-
 }
 
 
@@ -281,6 +278,7 @@ const options = {
 	data,
 	callbacks,
 	animate,
+	token: urlParamsObj ? urlParamsObj.token : null,
 }
 
 ReactDOM.render(<App options={options}/>, document.getElementById('app'));

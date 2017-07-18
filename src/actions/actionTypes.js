@@ -1,3 +1,3 @@
 export default {
-	TEST: "TEST",
+	TOGGLE_VISUALIZER: "TOGGLE_VISUALIZER",
 }

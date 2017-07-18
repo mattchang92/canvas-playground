@@ -16,4 +16,15 @@ div {
 .root {
   position: absolute; }
 
+.visualizer-container {
+  position: fixed;
+  height: 100vh;
+  width: 30vw;
+  background-color: white;
+  top: 0;
+  left: 100vw;
+  transition: left .5s; }
+  .visualizer-container.active {
+    left: 70vw; }
+
 /*# sourceMappingURL=style.css.map*/
