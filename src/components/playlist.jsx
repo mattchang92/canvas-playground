@@ -18,7 +18,8 @@ class Playlist extends React.Component {
 				key={this.props.playlist.id}
 				className="playlist"
 				onClick={() => this.handleClick()}
-			>{this.props.playlist.name}
+			>
+				{this.props.playlist.name}
 			</div>
 		)
 	}
@@ -33,7 +34,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		selectPlaylist: apiActions.selectPlaylist(dispatch),
+		selectPlaylist: dispatch(apiActions.selectPlaylist),
 	}
 }
 

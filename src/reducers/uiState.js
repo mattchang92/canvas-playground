@@ -3,8 +3,10 @@ import actions from '../actions/actionTypes';
 const initialState = {
 	visualizerActive: true,
 	playlists: [],
+	tracks: [],
 	selectedPlaylist: undefined,
 	token: undefined,
+	userId: undefined,
 };
 
 export default function formStore(state = initialState, action) {
@@ -19,8 +21,17 @@ export default function formStore(state = initialState, action) {
 			return Object.assign({}, state, { selectedPlaylist: action.payload });
 		}
 		case actions.SET_TOKEN: {
-			console.log('setting token');
 			return Object.assign({}, state, { token: action.payload });
+		}
+		case actions.SET_USER_ID: {
+			return Object.assign({}, state, { userId: action.payload });
+		}
+		case actions.UPDATE_TRACKS: {
+			const tracksWithSample = action.payload.filter((item) => {
+				return item.track.preview_url;
+			});
+
+			return Object.assign({}, state, { tracks: tracksWithSample });
 		}
 		default:
 			return state;

@@ -6,6 +6,7 @@ import apiActions from '../actions/apiActions';
 import uiActions from '../actions/uiActions';
 
 import Playlist from './playlist.jsx';
+import Track from './track.jsx';
 // @connect(
 // 	(state, ownProps) => {
 // 		console.log('state', state);
@@ -22,16 +23,24 @@ class VisualizerContainer extends React.Component {
 		super(props)
 	}
 
-	displayContent() {
+	displayPlaylists() {
 		return this.props.playlists && this.props.playlists.length ?
 			this.props.playlists.map((playlist, index) => {
 				return <Playlist key={playlist.id} playlist={playlist}/>
 			}) : <h1>No playlists found</h1>
 	}
 
+	displayTracks() {
+		return this.props.tracks && this.props.tracks.length ?
+			this.props.tracks.map((item, index) => {
+				return <Track key={item.track.id} track={item.track} audio={this.props.options.audio}/>
+			}) : <h1>No tracks found</h1>
+	}
+
 	componentDidMount() {
 		if (this.props.options.token) {
 			this.props.fetchPlaylists(this.props.options.token);
+			this.props.fetchUserData(this.props.options.token);
 			this.props.setToken(this.props.options.token);
 		}
 	}
@@ -43,10 +52,11 @@ class VisualizerContainer extends React.Component {
 				Visualizer
 				<button onClick={() => this.props.fetchPlaylists(this.props.options.token)}>Fetch playlists</button>
 				<div className="tracks-area">
-					<div className="playlists-container">
-						{this.displayContent()}
+					<div className={this.props.selectedPlaylist ? "playlists-container inactive" : "playlists-container"}>
+						{this.displayPlaylists()}
 					</div>
-					<div className="songs-container">
+					<div className={this.props.selectedPlaylist ? "songs-container active" : "songs-container"}>
+						{this.displayTracks()}
 					</div>
 				</div>
 			</div>
@@ -56,6 +66,8 @@ class VisualizerContainer extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
+		tracks: state.tracks,
+		selectedPlaylist: state.selectedPlaylist,
 		visualizerActive: state.visualizerActive,
 		playlists: state.playlists,
 	}
@@ -64,6 +76,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		fetchPlaylists: apiActions.fetchPlaylists(dispatch),
+		fetchUserData: apiActions.fetchUserData(dispatch),
 		setToken: uiActions.setToken(dispatch),
 	}
 };

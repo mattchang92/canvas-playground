@@ -11,6 +11,12 @@ const actions = {
 	selectPlaylist: (playlist) => {
 		return { type: actionTypes.SELECT_PLAYLIST, payload: playlist }
 	},
+	setUserId: (id) => {
+		return { type: actionTypes.SET_USER_ID, payload: id }
+	},
+	updatePlaylistTracks: (tracks) => {
+		return { type: actionTypes.UPDATE_TRACKS, payload: tracks }
+	},
 	setToken: (dispatch) => {
 		return (token) => {
 			dispatch({ type: actionTypes.SET_TOKEN, payload: token});

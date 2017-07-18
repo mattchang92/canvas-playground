@@ -19,9 +19,38 @@ const actions = {
 				});
 		}
 	},
-	selectPlaylist: (dispatch) => {
+	fetchUserData: (dispatch) => {
+		return (credentials) => {
+			return fetch(getRequest(credentials, config.spotify.baseUrl + config.spotify.me, 'GET'))
+				.then((response) => {
+					response.json().then((result) => {
+						console.log('me', result);
+						dispatch(uiActions.setUserId(result.id))
+						// dispatch(uiActions.updatePlaylists(result.items))
+					});
+				});
+		}
+	},
+	selectPlaylist: (dispatch, getState) => {
 		return (playlist) => {
-			console.log('playlist', playlist);
+			console.log('userId', getState().userId);
+			console.log('token', getState().token);
+			return fetch(getRequest(getState().token, `${config.spotify.baseUrl}/v1/users/${getState().userId}/playlists/${playlist}`, 'GET'))
+				.then((response) => {
+					console.log('response', response);
+					response.json().then((result) => {
+						dispatch(uiActions.selectPlaylist(playlist));
+						dispatch(uiActions.updatePlaylistTracks(result.tracks.items));
+						console.log('result', result);
+						// result.tracks.items
+						// item.track.preview_url
+						// item.track.name
+						// item.track.artists (array) .name
+						// item.track.album.images(array) .url
+						// dispatch(uiActions.setUserId(result.id))
+						// dispatch(uiActions.updatePlaylists(result.items))
+					});
+				});
 		}
 	}
 }

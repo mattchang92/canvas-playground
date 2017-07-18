@@ -4,6 +4,10 @@ body {
 	overflow: hidden;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 div {
 	display: flex;
 	align-items: start;
@@ -16,7 +20,7 @@ div {
 .visualizer-container {
 	position: fixed;
 	height: 100vh;
-	width: 30vw;
+	width: 60vw;
 	top: 0;
 	left: 100vw;
 	transition: left .5s;
@@ -30,28 +34,36 @@ div {
 		top: 50px;
 		position: absolute;
 		width: 100%;
+		height: 50%;
 		display: flex;
 		flex-direction: row;
 		border-top: thin solid white;
 		color: #2ebd59;
-		overflow: hidden;
+		overflow: scroll;
 
 		.playlists-container {
+			position: absolute;
 			display: flex;
 			flex-direction: column;
-			width: 100%;
+			width: 50%;
+			// transition: left 2s;
+
+			&.inactive {
+				animation: slideLeftOut ease-out 0.5s 1;
+				animation-fill-mode: forwards;
+
+				.playlist {
+					border-right: none;
+				}
+			}
 
 			.playlist {
-				width: 100%;
+				width: 90%;
 				height: 100%;
-				padding-left: 25px;
+				padding-left: 10%;
 				border: thin solid white;
 				line-height: 50px;
 				overflow: hidden;
-
-				&.collapsed {
-					height: 0;
-				}
 
 				&:hover {
 					opacity: 0.8;
@@ -62,5 +74,53 @@ div {
 			}
 		}
 
+		.songs-container {
+			width: 50%;
+			left: 50%;
+			position: absolute;
+			display: flex;
+			flex-direction: column;
+
+			&.active {
+				animation: slideLeftIn ease-out 0.5s 1;
+				animation-fill-mode: forwards;
+			}
+
+			.playlist {
+				width: 90%;
+				height: 50px;
+				padding-left: 10%;
+				border: thin solid white;
+				line-height: 50px;
+				overflow: hidden;
+
+
+				&:hover {
+					opacity: 0.8;
+					font-size: 1.1em;
+					background-color: #515151;
+					transition: all 0.3s;
+				}
+			}
+		}
+
+	}
+}
+
+@keyframes slideLeftIn {
+	0% {
+		left: %100;
+	}
+	100% {
+		left: 0;
+	}
+}
+
+@keyframes slideLeftOut {
+	0% {
+		left: 0;
+	}
+	100% {
+		left: -100%;
 	}
 }

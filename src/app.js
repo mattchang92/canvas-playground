@@ -34,6 +34,7 @@ ctx.crossOrigin = 'anonymous';
 
 
 const audio = document.getElementById('myAudio');
+audio.crossOrigin = 'anonymous';
 const audioSrc = ctx.createMediaElementSource(audio);
 audioSrc.crossOrigin = 'anonymous';
 const analyser = ctx.createAnalyser();
