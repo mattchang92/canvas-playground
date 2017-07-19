@@ -90,6 +90,13 @@ const startVisualizer = () => {
 	}
 }
 
+const toggleColor = () => {
+	console.log('toggling');
+	if (data.visualizer.length) {
+		data.visualizer.forEach((bar) => (bar.toggleColor()));
+	}
+};
+
 const clearCanvas = () => {
 	data.circles = [];
 	data.visualizer = [];
@@ -278,6 +285,7 @@ const callbacks = {
 	startRainingOrbs,
 	createAtom,
 	addBall,
+	toggleColor,
 }
 
 

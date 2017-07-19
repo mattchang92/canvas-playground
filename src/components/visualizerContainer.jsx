@@ -21,6 +21,8 @@ import Track from './track.jsx';
 class VisualizerContainer extends React.Component {
 	constructor(props) {
 		super(props)
+
+		this.callbacks = this.props.options.callbacks;
 	}
 
 	displayPlaylists() {
@@ -52,6 +54,7 @@ class VisualizerContainer extends React.Component {
 				Visualizer
 				<button onClick={() => this.props.fetchPlaylists(this.props.options.token)}>Fetch playlists</button>
 				<button onClick={() => this.props.selectPlaylist()}>Back</button>
+				<button onClick={() => this.callbacks.toggleColor()}>Toggle Color</button>
 				<div className="tracks-area">
 					<div className={this.props.selectedPlaylist ? "playlists-container inactive" : "playlists-container"}>
 						{this.displayPlaylists()}
