@@ -15,7 +15,11 @@ export default class Track extends React.Component {
 		audioElement.setAttribute('src', this.props.track.preview_url)
 		this.props.audio.play();
 		// item.track.preview_url
-
+		// result.tracks.items
+		// item.track.preview_url
+		// item.track.name
+		// item.track.artists (array) .name
+		// item.track.album.images(array) .url
 	}
 
 	render() {
@@ -24,7 +28,7 @@ export default class Track extends React.Component {
 				className="playlist"
 				onClick={() => this.handleClick()}
 			>
-				{this.props.track.name}
+				{this.props.track.name} - {this.props.track.artists[0].name}
 			</div>
 		)
 	}

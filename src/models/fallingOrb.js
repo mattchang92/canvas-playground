@@ -11,13 +11,13 @@ module.exports = (canvas, c) => {
 		this.color = '#F2F3F4';
 		this.bounces = 0;
 
-		this.update = () => {
+		this.update = (visualizer) => {
 
 			this.dy += config.GRAVITY;
 			this.x += this.dx;
 			this.y += this.dy;
 
-			if (this.isOnFloor()) {
+			if (this.contactSurface(visualizer)) {
 				this.bounces++;
 				if (this.radius > 3) {
 					this.dx *= 0.8;
@@ -33,8 +33,14 @@ module.exports = (canvas, c) => {
 			return this.radius < 3;
 		};
 
-		this.isOnFloor = () => {
-			return (canvas.height - this.y) < (this.radius + this.dy);
+		this.contactSurface = (visualizer) => {
+			if ((canvas.height - this.y) < (this.radius + this.dy)) {
+				return true;
+			} else {
+				return visualizer.length && visualizer.some((bar) => {
+					return ((this.x + this.dx) > bar.x) && ((this.x + this.dx) < (bar.x + bar.width)) && ((this.y + this.dy) > (bar.y - bar.height));
+				})
+			}
 		};
 
 		this.draw = () => {

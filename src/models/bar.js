@@ -1,3 +1,5 @@
+import helpers from '../helpers';
+
 module.exports = (canvas, c) => {
 	return function Bar(x, y, width, color) {
 		this.x = x;
@@ -14,16 +16,20 @@ module.exports = (canvas, c) => {
 		};
 
 		this.draw = () => {
-			const red = Math.floor(255 * this.height / canvas.height);
-			const green = 255 - red;
-			const blue = 0;
+			const ratio = this.height / canvas.height;
+
+			//gold
+			// const color = helpers.getColorGold(ratio);
+
+			//green/red
+			const color = helpers.getColorRG(ratio);
 
 			c.beginPath();
 			c.rect(this.x, this.y, this.width, -this.height);
 
 
-			c.fillStyle = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
-			c.shadowColor = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
+			c.fillStyle = color;
+			c.shadowColor = color;
 			c.shadowBlur = 50;
 			// c.fillStyle = this.color;
 			// c.shadowColor = this.color;

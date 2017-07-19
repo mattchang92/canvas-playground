@@ -42,11 +42,6 @@ const actions = {
 						dispatch(uiActions.selectPlaylist(playlist));
 						dispatch(uiActions.updatePlaylistTracks(result.tracks.items));
 						console.log('result', result);
-						// result.tracks.items
-						// item.track.preview_url
-						// item.track.name
-						// item.track.artists (array) .name
-						// item.track.album.images(array) .url
 						// dispatch(uiActions.setUserId(result.id))
 						// dispatch(uiActions.updatePlaylists(result.items))
 					});
@@ -79,6 +74,20 @@ const getHeaders = (token) => {
 
 	return headers;
 };
+
+
+// const serverUrl = 'http://localhost:9000/'
+//
+// const keys = {
+// 	APIAccessID: 'testid',
+// 	APIAccessSecret: 'secret'
+// };
+//
+// const authenticateSpotify = () => {
+// 	return fetch(getRequest({hello: 'world'}, (serverUrl + 'api/authenticate-spotify'), 'POST'))
+//
+// 	// return (fetch('api/authenticate-spotify', {hello: 'world'}));
+// }
 
 
 export default actions;

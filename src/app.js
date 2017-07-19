@@ -1,6 +1,7 @@
 const when = require('when');
 const config = require('../config');
 
+import helpers from './helpers';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/appContainer.jsx';
@@ -27,7 +28,7 @@ addEventListener("mousemove", function(event) {
 	mouse.y = event.clientY;
 });
 
-const constructors = ModelsConstructors(canvas, c, mouse);
+const ctors = ModelsConstructors(canvas, c, mouse);
 
 const ctx = new AudioContext();
 ctx.crossOrigin = 'anonymous';
@@ -45,14 +46,14 @@ analyser.connect(ctx.destination);
 const frequencyData = new Uint8Array(analyser.frequencyBinCount);
 
 canvas.width = innerWidth;
-canvas.height = innerHeight * 0.975;
+canvas.height = innerHeight;
 
-const Circle = constructors.circle;
-const Atom = constructors.atom;
-const Bubble = constructors.bubble;
-const FallingOrb = constructors.fallingOrb;
-const Spark = constructors.spark;
-const Bar = constructors.bar;
+const Circle = ctors.circle;
+const Atom = ctors.atom;
+const Bubble = ctors.bubble;
+const FallingOrb = ctors.fallingOrb;
+const Spark = ctors.spark;
+const Bar = ctors.bar;
 
 
 const addBall = () => {
@@ -60,27 +61,33 @@ const addBall = () => {
 }
 
 const createAtom = () => {
-	// adata.tom = new Atom(canvas.width/2, canvas.height/2, 15, '#FA942E')
-	data.atom = new Atom(canvas.width/2, canvas.height/2, 15, '#1AA4D1')
-	// data.atom = new Atom(canvas.width/2, canvas.height/2, 15, '#F2F3F4')
+	if (!data.atom) {
+		// adata.tom = new Atom(canvas.width/2, canvas.height/2, 15, '#FA942E')
+		data.atom = new Atom(canvas.width/2, canvas.height/2, 15, '#1AA4D1')
+		// data.atom = new Atom(canvas.width/2, canvas.height/2, 15, '#F2F3F4')
+	} else {
+		data.atom = null;
+	}
 }
 
 
 const startRainingOrbs = () => {
-	data.rainOrbs = true;
+	data.rainOrbs = !data.rainOrbs;
 }
 
 const startBubbles = () => {
-	data.makeBubbles = true;
+	data.makeBubbles = !data.makeBubbles;
 }
 
 
 const startVisualizer = () => {
-	for (let i = 0; i < 16; i++) {
-		data.visualizer.push(new Bar(i * (canvas.width/16), canvas.height, canvas.width/16, 'red'));
+	if (!data.visualizer.length) {
+		for (let i = 0; i < 16; i++) {
+			data.visualizer.push(new Bar(i * (canvas.width/16), canvas.height, canvas.width/16, 'red'));
+		}
+	} else {
+		data.visualizer = [];
 	}
-
-	console.log('starting visualizer', data.visualizer);
 }
 
 const clearCanvas = () => {
@@ -169,9 +176,9 @@ function animate() {
 	if (data.atom) data.atom.update(data.timer * 0.7);
 
 	if (data.makeBubbles) {
-		const randColor = Math.floor(3 * Math.random());
+		const color = Math.floor(3 * Math.random());
 
-		data.bubbles.push(new Bubble(50, randColor));
+		data.bubbles.push(new Bubble(50, color));
 		data.bubbles.forEach((bubble) => {
 			bubble.update();
 			if (bubble.destroy()) {
@@ -195,7 +202,7 @@ function animate() {
 		});
 
 		data.orbs.forEach((orb) => {
-			orb.update();
+			orb.update(data.visualizer);
 			if (orb.bounces) {
 				orb.bounces--;
 				const sparksNumber = 4 * Math.random() + 10;
@@ -242,9 +249,9 @@ function animate() {
 	if (data.atom) {
 		let beatStrength = 1;
 		if (risingBins >= 16) {
-			beatStrength = 1.4
+			beatStrength = 1.3
 		} else if (risingBins > 12) {
-			beatStrength = 1.25;
+			beatStrength = 1.2;
 		} else if (risingBins > 8) {
 			beatStrength = 1.1;
 		}
@@ -281,5 +288,7 @@ const options = {
 	animate,
 	token: urlParamsObj ? urlParamsObj.access_token : null,
 }
+
+startVisualizer();
 
 ReactDOM.render(<App options={options}/>, document.getElementById('app'));
