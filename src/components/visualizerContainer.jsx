@@ -7,6 +7,8 @@ import uiActions from '../actions/uiActions';
 
 import Playlist from './playlist.jsx';
 import Track from './track.jsx';
+import { ArrowLeft, PlayButton, StopButton, SkipTrack, PreviousTrack } from '../../assets/icons.jsx';
+
 // @connect(
 // 	(state, ownProps) => {
 // 		console.log('state', state);
@@ -47,26 +49,48 @@ class VisualizerContainer extends React.Component {
 		}
 	}
 
+	goBack() {
+		if (this.props.selectedPlaylist) {
+			this.props.selectPlaylist()
+		} else {
+
+			this.props.toggleVisualizer();
+		}
+
+	}
+
 	render() {
 
 		return (
 			<div className={this.props.visualizerActive ? "active visualizer-container" : "visualizer-container"}>
-				Visualizer
-				<button onClick={() => this.props.fetchPlaylists(this.props.options.token)}>Fetch playlists</button>
-				<button onClick={() => this.props.selectPlaylist()}>Back</button>
-				<button onClick={() => this.callbacks.toggleColor()}>Toggle Color</button>
+				<div className="top-bar">
+					Visualizer
+					<ArrowLeft onClick={() => this.goBack()}/>
+					<button onClick={() => this.props.fetchPlaylists(this.props.options.token)}>Fetch playlists</button>
+					<button onClick={() => this.callbacks.toggleColor()}>Toggle Color</button>
+				</div>
 				<div className="tracks-area">
-					<div className={this.props.selectedPlaylist ? "playlists-container inactive" : "playlists-container"}>
+					<div className={this.props.selectedPlaylist ? "playlists-container inactive" : "playlists-container"} id="playlists-container">
 						{this.displayPlaylists()}
 					</div>
 					<div className={this.props.selectedPlaylist ? "songs-container active" : "songs-container"}>
 						{this.displayTracks()}
 					</div>
 				</div>
+				<div className="spotify-controls">
+				</div>
 			</div>
 		)
 	}
 }
+// <div className="control-buttons">
+// 	<PreviousTrack />
+// 	<PlayButton />
+// 	<SkipTrack />
+// </div>
+// <PreviousTrack />
+// <StopButton />
+// <SkipTrack />
 
 const mapStateToProps = (state) => {
 	return {
@@ -83,6 +107,7 @@ const mapDispatchToProps = (dispatch) => {
 		fetchUserData: apiActions.fetchUserData(dispatch),
 		selectPlaylist: () => dispatch(uiActions.selectPlaylist(null)),
 		setToken: uiActions.setToken(dispatch),
+		toggleVisualizer: () => dispatch(uiActions.toggleVisualizer()),
 	}
 };
 

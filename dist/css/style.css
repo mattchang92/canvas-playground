@@ -2,6 +2,19 @@ body {
   margin: 0;
   background-color: #1E1E1E;
   overflow: hidden; }
+  body svg {
+    color: white;
+    -webkit-transform: scale(2);
+            transform: scale(2);
+    transition: stroke 0.1s; }
+    body svg.back-button {
+      position: absolute;
+      left: 25px;
+      top: 25px; }
+    body svg:hover {
+      stroke-width: 1.5;
+      stroke: #2ebd59;
+      opacity: 0.8; }
 
 ::-webkit-scrollbar {
   display: none; }
@@ -30,7 +43,7 @@ div {
   .visualizer-container.active {
     left: 70vw; }
   .visualizer-container div.tracks-area {
-    top: 50px;
+    top: 10%;
     position: absolute;
     width: 100%;
     height: 50%;
@@ -102,6 +115,9 @@ div {
           font-size: 1.1em;
           background-color: #515151;
           transition: all 0.3s; }
+  .visualizer-container .spotify-controls {
+    position: absolute;
+    top: 60%; }
 
 @-webkit-keyframes slideLeftIn {
   0% {
@@ -119,12 +135,12 @@ div {
   0% {
     left: 0; }
   100% {
-    left: -100%; } }
+    left: -50%; } }
 
 @keyframes slideLeftOut {
   0% {
     left: 0; }
   100% {
-    left: -100%; } }
+    left: -50%; } }
 
 /*# sourceMappingURL=style.css.map*/
