@@ -91,7 +91,6 @@ const startVisualizer = () => {
 }
 
 const toggleColor = () => {
-	console.log('toggling');
 	if (data.visualizer.length) {
 		data.visualizer.forEach((bar) => (bar.toggleColor()));
 	}
@@ -140,9 +139,8 @@ if (urlParamsArray) {
 		urlParamsObj[param[0]] = param[1];
 	})
 }
-console.log('urlParamsObj', urlParamsObj);
-	//
-	// // Animation Loop
+
+// Animation Loop
 const data = {
 	animation: undefined,
 	circles: [],

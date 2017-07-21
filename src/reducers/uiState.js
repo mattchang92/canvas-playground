@@ -5,8 +5,10 @@ const initialState = {
 	playlists: [],
 	tracks: [],
 	selectedPlaylist: undefined,
+	trackIndex: 0,
 	token: undefined,
 	userId: undefined,
+	albumArt: undefined,
 };
 
 export default function formStore(state = initialState, action) {
@@ -32,6 +34,12 @@ export default function formStore(state = initialState, action) {
 			});
 
 			return Object.assign({}, state, { tracks: tracksWithSample });
+		}
+		case actions.SELECT_TRACK: {
+			return Object.assign({}, state, { trackIndex: action.payload });
+		}
+		case actions.SET_ALBUM_ART: {
+			return Object.assign({}, state, { albumArt: action.payload });
 		}
 		default:
 			return state;

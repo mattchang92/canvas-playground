@@ -26,7 +26,6 @@ const apiPost = (endpoint, data) => (
 
 const apiGet = (endpoint) => (
 	when(rest.get(endpoint), (result) => {
-		// console.log('result', result);
 		return result
 	})
 )

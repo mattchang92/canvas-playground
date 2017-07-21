@@ -1,6 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-export default class Track extends React.Component {
+import uiActions from '../actions/uiActions';
+
+class Track extends React.Component {
 	constructor(props) {
 		super();
 	}
@@ -8,12 +11,11 @@ export default class Track extends React.Component {
 
 	handleClick() {
 
-		console.log('this.props.track', this.props);
 		const audioElement = document.getElementById('myAudio');
-
-		console.log('audioelement', audioElement);
 		audioElement.setAttribute('src', this.props.track.preview_url)
 		this.props.audio.play();
+
+		this.props.selectTrack(this.props.index, this.props.track.album.images[0].url);
 		// item.track.preview_url
 		// result.tracks.items
 		// item.track.preview_url
@@ -33,3 +35,11 @@ export default class Track extends React.Component {
 		)
 	}
 }
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		selectTrack: uiActions.selectTrack(dispatch),
+	}
+}
+
+export default connect(undefined, mapDispatchToProps)(Track);

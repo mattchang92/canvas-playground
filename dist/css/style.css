@@ -119,6 +119,13 @@ div {
     position: absolute;
     top: 60%; }
 
+img.album-artwork {
+  z-index: -1;
+  position: absolute;
+  padding: 10%;
+  width: 200px;
+  height: 200px; }
+
 @-webkit-keyframes slideLeftIn {
   0% {
     left: % 100; }

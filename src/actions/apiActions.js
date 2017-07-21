@@ -7,12 +7,10 @@ const actions = {
 		return (credentials) => {
 			return fetch(getRequest(credentials, config.spotify.baseUrl + config.spotify.playlistsIndexEndpoint, 'GET'))
 				.then((response) => {
-					console.log('response', response);
 					if (!response.ok) {
 						// getErrors(response).then((error) => dispatch(loginFailed(error)));
 					} else {
 						response.json().then((result) => {
-							console.log('result', result);
 							dispatch(uiActions.updatePlaylists(result.items))
 						});
 					}
@@ -33,15 +31,11 @@ const actions = {
 	},
 	selectPlaylist: (dispatch, getState) => {
 		return (playlist) => {
-			console.log('userId', getState().userId);
-			console.log('token', getState().token);
 			return fetch(getRequest(getState().token, `${config.spotify.baseUrl}/v1/users/${getState().userId}/playlists/${playlist}`, 'GET'))
 				.then((response) => {
-					console.log('response', response);
 					response.json().then((result) => {
 						dispatch(uiActions.selectPlaylist(playlist));
 						dispatch(uiActions.updatePlaylistTracks(result.tracks.items));
-						console.log('result', result);
 						// dispatch(uiActions.setUserId(result.id))
 						// dispatch(uiActions.updatePlaylists(result.items))
 					});

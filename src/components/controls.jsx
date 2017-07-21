@@ -15,8 +15,6 @@ import uiActions from '../actions/uiActions';
 class Controls extends React.Component {
 	constructor(props) {
 		super(props);
-		// console.log('controls props', this.props.options.audio.play);
-		console.log('component this', this);
 		this.audio = this.props.options.audio;
 		this.callbacks = this.props.options.callbacks;
 	}
