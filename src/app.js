@@ -222,11 +222,11 @@ function animate() {
 
 	if (data.sparks.length) {
 		data.sparks = data.sparks.filter((spark) => {
-			return !spark.isOnFloor();
+			return !spark.contactSurface(data.visualizer);
 		});
 
 		data.sparks.forEach((spark) => {
-			spark.update();
+			spark.update(data.visualizer);
 		})
 	}
 
@@ -254,9 +254,9 @@ function animate() {
 	if (data.atom) {
 		let beatStrength = 1;
 		if (risingBins >= 16) {
-			beatStrength = 1.3
+			beatStrength = 1.2
 		} else if (risingBins > 12) {
-			beatStrength = 1.2;
+			beatStrength = 1.15;
 		} else if (risingBins > 8) {
 			beatStrength = 1.1;
 		}

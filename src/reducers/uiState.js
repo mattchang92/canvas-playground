@@ -9,6 +9,8 @@ const initialState = {
 	token: undefined,
 	userId: undefined,
 	albumArt: undefined,
+	isPlaying: false,
+	currentTrack: undefined,
 };
 
 export default function formStore(state = initialState, action) {
@@ -36,10 +38,16 @@ export default function formStore(state = initialState, action) {
 			return Object.assign({}, state, { tracks: tracksWithSample });
 		}
 		case actions.SELECT_TRACK: {
-			return Object.assign({}, state, { trackIndex: action.payload });
+			return Object.assign({}, state, { trackIndex: action.payload.trackIndex, currentTrack: action.payload.trackId });
 		}
 		case actions.SET_ALBUM_ART: {
 			return Object.assign({}, state, { albumArt: action.payload });
+		}
+		case actions.START_PLAYING: {
+			return Object.assign({}, state, { isPlaying: true});
+		}
+		case actions.STOP_PLAYING: {
+			return Object.assign({}, state, { isPlaying: false });
 		}
 		default:
 			return state;

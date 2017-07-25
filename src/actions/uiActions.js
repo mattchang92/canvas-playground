@@ -22,11 +22,17 @@ const actions = {
 		}
 	},
 	selectTrack: (dispatch) => {
-		return (trackIndex, albumArt) => {
-			dispatch({ type: actionTypes.SELECT_TRACK, payload: trackIndex });
+		return (trackIndex, albumArt, trackId) => {
+			dispatch({ type: actionTypes.SELECT_TRACK, payload: { trackIndex, trackId } });
 			dispatch({ type: actionTypes.SET_ALBUM_ART, payload: albumArt });
 		}
 	},
+	startPlaying: () => {
+		return { type: actionTypes.START_PLAYING };
+	},
+	stopPlaying: () => {
+		return { type: actionTypes.STOP_PLAYING };
+	}
 };
 
 export default actions;

@@ -16,6 +16,28 @@ class VisualizerContainer extends React.Component {
 
 		this.callbacks = this.props.options.callbacks;
 		this.audio = this.props.options.audio;
+
+		this.state = {
+			currentTime: 0,
+			timeTracker: undefined,
+		}
+	}
+
+	// componentDidMount() {
+	//
+	//
+	// 	if (!this.timeTracker) {
+	// 		this.setState({
+	// 			timeTracker: setInterval(() => {
+	// 				this.setState({ currentTime: this.audio.currentTime });
+	// 			}, 300)
+	// 		})
+	// 	}
+	//
+	// }
+
+	componentWillUnmount() {
+		clearInterval(this.state.timeTracker);
 	}
 
 	displayPlaylists() {
@@ -38,6 +60,18 @@ class VisualizerContainer extends React.Component {
 			this.props.fetchUserData(this.props.options.token);
 			this.props.setToken(this.props.options.token);
 		}
+
+		this.audio.addEventListener('ended', () => {
+			this.props.stopPlaying();
+		})
+
+			if (!this.timeTracker) {
+				this.setState({
+					timeTracker: setInterval(() => {
+						this.setState({ currentTime: this.audio.currentTime });
+					}, 300)
+				})
+			}
 	}
 
 	goBack() {
@@ -49,9 +83,17 @@ class VisualizerContainer extends React.Component {
 
 	}
 
-	toggleMusic() {
-		this.audio.paused ? this.audio.play() : this.audio.pause();
+	startMusic() {
+		this.audio.play();
+		this.props.startPlaying();
 	}
+
+	stopMusic() {
+		this.audio.pause();
+		this.props.stopPlaying();
+	}
+
+
 
 	changeTrack(type) {
 		const audioElement = document.getElementById('myAudio');
@@ -70,7 +112,6 @@ class VisualizerContainer extends React.Component {
 		return (
 			<div className={this.props.visualizerActive ? "active visualizer-container" : "visualizer-container"}>
 				<div className="top-bar">
-					Visualizer
 					<ArrowLeft onClick={() => this.goBack()}/>
 					<button onClick={() => this.callbacks.toggleColor()}>Toggle Color</button>
 				</div>
@@ -83,28 +124,23 @@ class VisualizerContainer extends React.Component {
 					</div>
 				</div>
 				<div className="spotify-controls">
-					<button onClick={() => this.changeTrack(-1)}>Previous Track</button>
-					<button onClick={() => this.toggleMusic()}>Play/Pause</button>
-					<button onClick={() => this.changeTrack(1)}>Next Track</button>
-					{
-						this.props.albumArt ?
-							<img className="album-artwork" src={this.props.albumArt}></img> : null
-					}
-
+					<img className="album-artwork" src={this.props.albumArt ? this.props.albumArt : '/assets/spotify.png'}></img>
+					<div className="buttons-container">
+						<button className="music-controls" onClick={() => this.changeTrack(-1)}><PreviousTrack /></button>
+						{
+							this.props.isPlaying ?
+								<button className="music-controls" onClick={() => this.stopMusic()}><StopButton /></button> :
+								<button className="music-controls" onClick={() => this.startMusic()}><PlayButton /></button>
+						}
+						<button className="music-controls" onClick={() => this.changeTrack(1)}><SkipTrack /></button>
+						<span>{this.state.currentTime}</span>
+					</div>
 				</div>
 			</div>
 		)
 	}
 
 }
-// <div className="control-buttons">
-// 	<PreviousTrack />
-// 	<PlayButton />
-// 	<SkipTrack />
-// </div>
-// <PreviousTrack />
-// <StopButton />
-// <SkipTrack />
 
 const mapStateToProps = (state) => {
 	return {
@@ -114,6 +150,7 @@ const mapStateToProps = (state) => {
 		playlists: state.playlists,
 		trackIndex: state.trackIndex,
 		albumArt: state.albumArt,
+		isPlaying: state.isPlaying,
 	}
 };
 
@@ -125,6 +162,8 @@ const mapDispatchToProps = (dispatch) => {
 		selectTrack: uiActions.selectTrack(dispatch),
 		setToken: uiActions.setToken(dispatch),
 		toggleVisualizer: () => dispatch(uiActions.toggleVisualizer()),
+		startPlaying: () => dispatch(uiActions.startPlaying()),
+		stopPlaying: () => dispatch(uiActions.stopPlaying()),
 	}
 };
 

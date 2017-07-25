@@ -12,7 +12,7 @@ module.exports = (canvas, c) => {
 		this.radius = radius;
 		this.originalRadius = radius;
 		this.beatRadius = radius * 1.3;
-		this.maxRadius = radius * 1.8;
+		this.maxRadius = radius * 1.6;
 		this.color = color;
 		this.visualizeMode = false;
 
