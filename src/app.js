@@ -116,16 +116,10 @@ const restartAnimation = () => {
 }
 
 const authenticateSpotify = () => {
-	// window.location.href = config.spotify.authUrl + '/?client_id=' + config.spotify.clientID +
-	// 	'&response_type=code&redirect_uri=' + config.spotify.redirectUri +
-	// 	'&show_dialog=true';
-	// const authToken = fetch(apiActions.getRequest(
-	// null,
 	window.location.href = config.spotify.authUrl + '/?client_id=' + config.spotify.clientID +
 		'&response_type=token&redirect_uri=' + config.spotify.redirectUriClient +
 		'&show_dialog=true',
 		'GET'
-
 }
 
 const urlParamsArray = window.location.href.includes('#') ?
