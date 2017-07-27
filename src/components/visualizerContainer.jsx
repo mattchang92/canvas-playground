@@ -23,19 +23,6 @@ class VisualizerContainer extends React.Component {
 		}
 	}
 
-	// componentDidMount() {
-	//
-	//
-	// 	if (!this.timeTracker) {
-	// 		this.setState({
-	// 			timeTracker: setInterval(() => {
-	// 				this.setState({ currentTime: this.audio.currentTime });
-	// 			}, 300)
-	// 		})
-	// 	}
-	//
-	// }
-
 	componentWillUnmount() {
 		clearInterval(this.state.timeTracker);
 	}
@@ -65,13 +52,13 @@ class VisualizerContainer extends React.Component {
 			this.props.stopPlaying();
 		})
 
-			if (!this.timeTracker) {
-				this.setState({
-					timeTracker: setInterval(() => {
-						this.setState({ currentTime: this.audio.currentTime });
-					}, 300)
-				})
-			}
+			// if (!this.timeTracker) {
+			// 	this.setState({
+			// 		timeTracker: setInterval(() => {
+			// 			this.setState({ currentTime: this.audio.currentTime });
+			// 		}, 300)
+			// 	})
+			// }
 	}
 
 	goBack() {
@@ -113,7 +100,7 @@ class VisualizerContainer extends React.Component {
 			<div className={this.props.visualizerActive ? "active visualizer-container" : "visualizer-container"}>
 				<div className="top-bar">
 					<ArrowLeft onClick={() => this.goBack()}/>
-					<button onClick={() => this.callbacks.toggleColor()}>Toggle Color</button>
+					<a onClick={() => this.callbacks.toggleColor()}>Toggle Color</a>
 				</div>
 				<div className="tracks-area">
 					<div className={this.props.selectedPlaylist ? "playlists-container inactive" : "playlists-container"} id="playlists-container">

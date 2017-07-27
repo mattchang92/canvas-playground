@@ -5,3 +5,7 @@ dist/js/canvas.bundle.js.map
 dist/css/style.css.map
 dist/mp3
 config.json
+canvas.bundle.js
+canvas.bundle.js.map
+style.css
+style.css.map

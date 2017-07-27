@@ -116,9 +116,11 @@ const restartAnimation = () => {
 }
 
 const authenticateSpotify = () => {
+	const redirectUri = window.location.href.includes('localhost') ?
+		config.spotify.redirectUriClient.local : config.spotify.redirectUriClient.aws;
+
 	window.location.href = config.spotify.authUrl + '/?client_id=' + config.spotify.clientID +
-		'&response_type=token&redirect_uri=' + config.spotify.redirectUriClient +
-		'&show_dialog=true',
+		'&response_type=token&redirect_uri=' + redirectUri + '&show_dialog=true',
 		'GET'
 }
 
@@ -245,6 +247,11 @@ function animate() {
 		}
 	}
 
+	if (data.visualizerData.length) {
+		data.visualizerData[0] = data.visualizerData[0] * 0.75;
+		data.visualizerData[1] = data.visualizerData[1] * 0.9;
+	}
+
 	if (data.atom) {
 		let beatStrength = 1;
 		if (risingBins >= 16) {
@@ -289,6 +296,6 @@ const options = {
 	token: urlParamsObj ? urlParamsObj.access_token : null,
 }
 
-startVisualizer();
+// startVisualizer();
 
 ReactDOM.render(<App options={options}/>, document.getElementById('app'));

@@ -140,6 +140,14 @@ img.album-artwork {
   width: 200px;
   height: 200px; }
 
+button#do-toggle-visualizer {
+  position: fixed;
+  top: 10vh;
+  left: 90vw;
+  transition: top 1s; }
+  button#do-toggle-visualizer.hidden {
+    top: -20px; }
+
 @-webkit-keyframes slideLeftIn {
   0% {
     left: % 100; }

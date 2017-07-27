@@ -17,31 +17,68 @@ class Controls extends React.Component {
 		super(props);
 		this.audio = this.props.options.audio;
 		this.callbacks = this.props.options.callbacks;
+
+		this.state = {
+			atomActive: false,
+			bubblesActive: false,
+			orbsActive: false,
+			visualizerActive: false,
+		}
+	}
+
+	toggleVisualizerMenu() {
+		this.props.dispatch(uiActions.toggleVisualizer());
+	}
+
+	toggleAtom() {
+		this.callbacks.createAtom();
+		this.setState({ atomActive: !this.state.atomActive })
+	}
+
+	toggleBubbles() {
+		this.callbacks.startBubbles();
+		this.setState({ bubblesActive: !this.state.bubblesActive })
+	}
+
+	toggleOrbs() {
+		this.callbacks.startRainingOrbs();
+		this.setState({ orbsActive: !this.state.orbsActive })
 	}
 
 	toggleVisualizer() {
-		this.props.dispatch(uiActions.toggleVisualizer());
+		this.callbacks.startVisualizer();
+		this.setState({ visualizerActive: !this.state.visualizerActive })
+	}
+
+	clearCanvas() {
+		this.callbacks.clearCanvas();
+		this.setState({
+			atomActive: false,
+			bubblesActive: false,
+			orbsActive: false,
+			visualizerActive: false,
+		});
 	}
 
 	render() {
 		return (
 			<div>
-				<button id="do-add-atom" onClick={this.callbacks.createAtom.bind(this.callbacks)}>Add Atom</button>
-				<button id="do-make-bubbles" onClick={this.callbacks.startBubbles.bind(this.callbacks)}>Make bubbles</button>
-				<button id="do-make-orb" onClick={this.callbacks.startRainingOrbs.bind(this.callbacks)}>Start raining orbs</button>
-				<button id="do-start-visualizer" onClick={this.callbacks.startVisualizer.bind(this.callbacks)}>Visualizer</button>
-				<button id="do-clear-canvas" onClick={this.callbacks.clearCanvas.bind(this.callbacks)}>Clear Canvas</button>
-				<button id="do-connect-spotify" onClick={this.callbacks.authenticateSpotify.bind(this.callbacks)}>Connect With Spotify</button>
-				<button id="do-toggle-visualizer" onClick={() => this.toggleVisualizer()}>Visualizer Menu</button>
+				<a className={this.state.atomActive ? "main-controls active" : "main-controls"} id="do-add-atom" onClick={this.toggleAtom.bind(this)}>Add Atom</a>
+				<a className={this.state.bubblesActive ? "main-controls active" : "main-controls"} id="do-make-bubbles" onClick={this.toggleBubbles.bind(this)}>Make bubbles</a>
+				<a className={this.state.orbsActive ? "main-controls active" : "main-controls"} id="do-make-orb" onClick={this.toggleOrbs.bind(this)}>Start raining orbs</a>
+				<a className={this.state.visualizerActive ? "main-controls active" : "main-controls"} id="do-start-visualizer" onClick={this.toggleVisualizer.bind(this)}>Visualizer (requires music)</a>
+				<a className="main-controls" id="do-clear-canvas" onClick={this.clearCanvas.bind(this)}>Clear Canvas</a>
+				<a className="main-controls" id="do-connect-spotify" onClick={this.callbacks.authenticateSpotify.bind(this.callbacks)}>Connect With Spotify</a>
+				<a id="do-toggle-visualizer" className={this.props.visualizerActive ? 'hidden main-controls' : 'main-controls'} onClick={() => this.toggleVisualizerMenu()}>Music Menu</a>
 			</div>
 		)
 	}
 }
 
-// <button id="do-add-ball" onClick={this.callbacks.addBall.bind(this.callbacks)}>Add Ball</button>
-// <button id="do-stop-animation" onClick={this.callbacks.stopAnimation.bind(this.callbacks)}>Stop Animation</button>
-// <button id="do-restart-animation" onClick={this.callbacks.restartAnimation.bind(this.callbacks)}>Start Animation</button>
-// <button id="do-replay" onClick={this.audio.play.bind(this.audio)}>Replay</button>
-// <button id="do-stop" onClick={this.audio.pause.bind(this.audio)}>Stop</button>
+const mapStateToProps = (state) => {
+	return {
+		visualizerActive: state.visualizerActive,
+	}
+}
 
-export default connect()(Controls);
+export default connect(mapStateToProps)(Controls);

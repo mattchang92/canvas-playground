@@ -4,7 +4,7 @@ const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 module.exports = {
 	entry: ['./src/app.js', './styles/index.scss'],
 	output: {
-		path: __dirname + '/dist/js',
+		path: __dirname + '/',
 		filename: 'canvas.bundle.js'
 	},
 	module: {
@@ -37,7 +37,7 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new ExtractTextPlugin("../css/style.css"),
+		new ExtractTextPlugin("style.css"),
 		new BrowserSyncPlugin({
 			host: 'localhost',
 			port: 3000,

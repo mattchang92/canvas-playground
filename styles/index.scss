@@ -4,6 +4,46 @@ body {
 	overflow: hidden;
 	font-family: avenir;
 
+	a.main-controls {
+		color: white;
+		position: relative;
+		padding: 10px;
+
+		&:hover {
+			color: #2ebd59;
+		}
+
+		&.active {
+			color: #2ebd59;
+			&:before {
+				// -webkit-transform: scaleX(0.7);
+				// transform: scaleX(0.7);
+				// visibility: visible;
+			}
+		}
+
+		&:before {
+			content: "";
+			position: absolute;
+			width: 100%;
+			height: 1.5px;
+			bottom: 0;
+			left: 0;
+			background-color: white;
+			visibility: hidden;
+			-webkit-transform: scaleX(0);
+			transform: scaleX(0);
+			-webkit-transition: all 0.3s ease-in-out 0s;
+			transition: all 0.3s ease-in-out 0s;
+		}
+
+		&:hover:before {
+			visibility: visible;
+			-webkit-transform: scaleX(0.7);
+			transform: scaleX(0.7);
+		}
+	}
+
 	svg {
 		color: white;
 
@@ -23,7 +63,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-    display: none;
+		display: none;
 }
 
 div {
@@ -167,6 +207,17 @@ img.album-artwork {
 	margin: 0 auto;
 	width: 200px;
 	height: 200px;
+}
+
+a#do-toggle-visualizer {
+	position: fixed;
+	top: 0;
+	left: 90vw;
+	transition: top 1s;
+
+	&.hidden {
+		top: -40px;
+	}
 }
 
 @keyframes slideLeftIn {
