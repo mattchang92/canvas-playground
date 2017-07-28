@@ -20,7 +20,13 @@ let mouse = {
 addEventListener("resize", function() {
 	canvas.width = innerWidth;
 	canvas.height = innerHeight;
-	// init();
+
+	if (data.visualizer.length) {
+		data.visualizer = [];
+		for (let i = 0; i < 16; i++) {
+			data.visualizer.push(new Bar(i * (canvas.width/16), canvas.height, canvas.width/16, 'red'));
+		}
+	}
 });
 
 addEventListener("mousemove", function(event) {
@@ -188,7 +194,8 @@ function animate() {
 		})
 	}
 
-	if ((data.timer % 100 === 0 || data.timer % 75 === 0) && data.rainOrbs) {
+	if ((data.timer % 40 === 0) && data.rainOrbs) {
+	// if ((data.timer % 100 === 0 || data.timer % 75 === 0) && data.rainOrbs) {
 		const x = Math.random() * canvas.width;
 		const y = -200;
 		const dx = 6 * Math.random() - 3;
@@ -248,8 +255,8 @@ function animate() {
 	}
 
 	if (data.visualizerData.length) {
-		data.visualizerData[0] = data.visualizerData[0] * 0.75;
-		data.visualizerData[1] = data.visualizerData[1] * 0.9;
+		data.visualizerData[0] = data.visualizerData[0] * 0.7;
+		data.visualizerData[1] = data.visualizerData[1] * 0.85;
 	}
 
 	if (data.atom) {

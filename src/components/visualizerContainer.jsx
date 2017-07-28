@@ -18,7 +18,6 @@ class VisualizerContainer extends React.Component {
 		this.audio = this.props.options.audio;
 
 		this.state = {
-			currentTime: 0,
 			timeTracker: undefined,
 		}
 	}
@@ -42,6 +41,8 @@ class VisualizerContainer extends React.Component {
 	}
 
 	componentDidMount() {
+		const progressBar = document.getElementById('progress-bar');
+
 		if (this.props.options.token) {
 			this.props.fetchPlaylists(this.props.options.token);
 			this.props.fetchUserData(this.props.options.token);
@@ -52,13 +53,15 @@ class VisualizerContainer extends React.Component {
 			this.props.stopPlaying();
 		})
 
-			// if (!this.timeTracker) {
-			// 	this.setState({
-			// 		timeTracker: setInterval(() => {
-			// 			this.setState({ currentTime: this.audio.currentTime });
-			// 		}, 300)
-			// 	})
-			// }
+
+		if (!this.state.timeTracker) {
+			this.setState({
+				timeTracker: setInterval(() => {
+					const progress =  100 * (this.audio.currentTime / 30);
+					progressBar.style.width = `${progress}%`;
+				}, 100)
+			})
+		}
 	}
 
 	goBack() {
@@ -112,6 +115,9 @@ class VisualizerContainer extends React.Component {
 				</div>
 				<div className="spotify-controls">
 					<img className="album-artwork" src={this.props.albumArt ? this.props.albumArt : '/assets/spotify.png'}></img>
+					<div className="progress-background">
+						<div id="progress-bar"/>
+					</div>
 					<div className="buttons-container">
 						<button className="music-controls" onClick={() => this.changeTrack(-1)}><PreviousTrack /></button>
 						{
@@ -120,7 +126,6 @@ class VisualizerContainer extends React.Component {
 								<button className="music-controls" onClick={() => this.startMusic()}><PlayButton /></button>
 						}
 						<button className="music-controls" onClick={() => this.changeTrack(1)}><SkipTrack /></button>
-						<span>{this.state.currentTime}</span>
 					</div>
 				</div>
 			</div>

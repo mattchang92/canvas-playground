@@ -34,7 +34,7 @@ module.exports = (canvas, c) => {
 		};
 
 		this.contactSurface = (visualizer) => {
-			if ((canvas.height - this.y) < (this.radius + this.dy)) {
+			if ((canvas.height - this.y) < (this.radius)) {
 				return true;
 			} else {
 				return visualizer.length && visualizer.some((bar) => {
