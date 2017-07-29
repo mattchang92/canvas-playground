@@ -22,7 +22,7 @@ const actions = {
 			return fetch(getRequest(credentials, config.spotify.baseUrl + config.spotify.me, 'GET'))
 				.then((response) => {
 					response.json().then((result) => {
-						console.log('me', result);
+						// console.log('me', result);
 						dispatch(uiActions.setUserId(result.id))
 						// dispatch(uiActions.updatePlaylists(result.items))
 					});
@@ -31,15 +31,18 @@ const actions = {
 	},
 	selectPlaylist: (dispatch, getState) => {
 		return (playlist) => {
-			return fetch(getRequest(getState().token, `${config.spotify.baseUrl}/v1/users/${getState().userId}/playlists/${playlist}`, 'GET'))
+			if (playlist !== 'default') {
+				return fetch(getRequest(getState().token, `${config.spotify.baseUrl}/v1/users/${getState().userId}/playlists/${playlist}`, 'GET'))
 				.then((response) => {
 					response.json().then((result) => {
 						dispatch(uiActions.selectPlaylist(playlist));
 						dispatch(uiActions.updatePlaylistTracks(result.tracks.items));
-						// dispatch(uiActions.setUserId(result.id))
-						// dispatch(uiActions.updatePlaylists(result.items))
 					});
 				});
+			} else {
+				dispatch(uiActions.selectPlaylist(playlist));
+				dispatch(uiActions.updatePlaylistTracks(config.defaultTracks));
+			}
 		}
 	}
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import apiActions from '../actions/apiActions';
+import uiActions from '../actions/uiActions';
 
 class Playlist extends React.Component {
 	super(props) {

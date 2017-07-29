@@ -10,6 +10,11 @@ class Track extends React.Component {
 
 
 	handleClick() {
+		// console.log('album', this.props.track.album.images[0].url);
+		// console.log('artist', this.props.track.artists[0].name);
+		// console.log('name', this.props.track.name);
+		// console.log('preview', this.props.track.preview_url);
+		// console.log('id', this.props.track.id);
 
 		const audioElement = document.getElementById('myAudio');
 		audioElement.setAttribute('src', this.props.track.preview_url)

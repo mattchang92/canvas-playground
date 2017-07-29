@@ -1,9 +1,12 @@
 import actions from '../actions/actionTypes';
+import config from '../../config.json';
 
 const initialState = {
 	visualizerActive: true,
-	playlists: [],
+	// playlists: [],
+	playlists: config.defaultPlaylist,
 	tracks: [],
+	// tracks: config.defaultTracks,
 	selectedPlaylist: undefined,
 	trackIndex: 0,
 	token: undefined,
@@ -19,7 +22,7 @@ export default function formStore(state = initialState, action) {
 			return Object.assign({}, state, { visualizerActive: !state.visualizerActive });
 		}
 		case actions.UPDATE_PLAYLISTS: {
-			return Object.assign({}, state, { playlists: action.payload });
+			return Object.assign({}, state, { playlists: [...state.playlists,...action.payload] });
 		}
 		case actions.SELECT_PLAYLIST: {
 			return Object.assign({}, state, { selectedPlaylist: action.payload });

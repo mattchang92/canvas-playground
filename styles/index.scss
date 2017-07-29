@@ -105,11 +105,16 @@ div {
 		overflow: scroll;
 
 		.playlists-container {
+			text-align: center;
 			position: absolute;
 			display: flex;
 			flex-direction: column;
 			width: 50%;
 			transition: left 0.5s;
+
+			h1 {
+				margin: 20px auto;
+			}
 
 			&.inactive {
 				left: -100%;
