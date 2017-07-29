@@ -1,5 +1,6 @@
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
 	entry: ['./src/app.js', './styles/index.scss'],
@@ -44,6 +45,14 @@ module.exports = {
 			server: { baseDir: ['./'] },
 			files: ['./dist/*']
 		}),
+		new webpack.DefinePlugin({
+			'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+		}),
+		new webpack.optimize.UglifyJsPlugin({
+			compress: {
+				warnings: false,
+			},
+		})
 	],
 	watch: true,
 	devtool: 'source-map'
