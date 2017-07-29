@@ -66,7 +66,9 @@ class VisualizerContainer extends React.Component {
 
 	goBack() {
 		if (this.props.selectedPlaylist) {
-			this.props.selectPlaylist()
+			document.getElementsByClassName('tracks-area')[0].scrollTop = 0;
+			this.props.selectPlaylist();
+			this.props.clearTracks();
 		} else {
 			this.props.toggleVisualizer();
 		}
@@ -153,6 +155,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
+		clearTracks: () => dispatch(uiActions.updatePlaylistTracks([])),
 		fetchPlaylists: apiActions.fetchPlaylists(dispatch),
 		fetchUserData: apiActions.fetchUserData(dispatch),
 		selectPlaylist: () => dispatch(uiActions.selectPlaylist(null)),
