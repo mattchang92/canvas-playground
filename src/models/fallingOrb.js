@@ -19,9 +19,9 @@ module.exports = (canvas, c) => {
 
 			if (this.contactSurface(visualizer)) {
 				this.bounces++;
-				if (this.radius > 3) {
+				if (this.radius > 3 && this.bounces === 1) {
 					this.dx *= 0.8;
-					this.dy *= -0.5;
+					this.dy *= this.dy > 0 ? -0.5 : 1;
 					this.radius *= 0.6;
 				}
 			}

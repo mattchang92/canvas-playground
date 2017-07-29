@@ -1,7 +1,7 @@
 import actions from '../actions/actionTypes';
 
 const initialState = {
-	visualizerActive: false,
+	visualizerActive: true,
 	playlists: [],
 	tracks: [],
 	selectedPlaylist: undefined,

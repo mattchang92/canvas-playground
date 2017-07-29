@@ -89,11 +89,12 @@ class VisualizerContainer extends React.Component {
 		const audioElement = document.getElementById('myAudio');
 		const tracks = this.props.tracks;
 		const index = this.props.trackIndex;
+		const nextTrack = tracks[index + type];
 
-		if (tracks[index + type]) {
-			audioElement.setAttribute('src', tracks[index + type].track.preview_url);
+		if (nextTrack) {
+			audioElement.setAttribute('src', nextTrack.track.preview_url);
 			audioElement.play();
-			this.props.selectTrack(index + type, tracks[index + type].track.album.images[0].url);
+			this.props.selectTrack(index + type, nextTrack.track.album.images[0].url, nextTrack.track.id);
 		}
 	}
 
@@ -102,8 +103,12 @@ class VisualizerContainer extends React.Component {
 		return (
 			<div className={this.props.visualizerActive ? "active visualizer-container" : "visualizer-container"}>
 				<div className="top-bar">
-					<ArrowLeft onClick={() => this.goBack()}/>
-					<a onClick={() => this.callbacks.toggleColor()}>Toggle Color</a>
+					<button onClick={() => this.goBack()}>
+						<ArrowLeft/>
+					</button>
+					<div>
+						<a onClick={() => this.callbacks.toggleColor()}>Toggle Color</a>
+					</div>
 				</div>
 				<div className="tracks-area">
 					<div className={this.props.selectedPlaylist ? "playlists-container inactive" : "playlists-container"} id="playlists-container">
