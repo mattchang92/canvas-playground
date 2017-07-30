@@ -59,6 +59,7 @@ class VisualizerContainer extends React.Component {
 				timeTracker: setInterval(() => {
 					const progress =  100 * (this.audio.currentTime / 30);
 					progressBar.style.width = `${progress}%`;
+					document.getElementById('selector').style.left = `${progress-3}%`;
 				}, 100)
 			})
 		}
@@ -98,6 +99,11 @@ class VisualizerContainer extends React.Component {
 			audioElement.play();
 			this.props.selectTrack(index + type, nextTrack.track.album.images[0].url, nextTrack.track.id);
 		}
+		console.log('nexttrack', nextTrack);
+	}
+
+	scrubMusic(e) {
+		this.audio.currentTime = 0.3 * e.target.value;
 	}
 
 	render() {
@@ -105,7 +111,7 @@ class VisualizerContainer extends React.Component {
 		return (
 			<div className={this.props.visualizerActive ? "active visualizer-container" : "visualizer-container"}>
 				<div className="top-bar">
-					<button onClick={() => this.goBack()}>
+					<button className="svg-button" onClick={() => this.goBack()}>
 						<ArrowLeft/>
 					</button>
 					<div>
@@ -121,18 +127,20 @@ class VisualizerContainer extends React.Component {
 					</div>
 				</div>
 				<div className="spotify-controls">
-					<img className="album-artwork" src={this.props.albumArt ? this.props.albumArt : '/assets/spotify.png'}></img>
+					<img  className="album-artwork" src={this.props.albumArt ? this.props.albumArt : '/assets/spotify.png'}></img>
 					<div className="progress-background">
+						<input type="range" className="invisible-slider" onChange={(e) => this.scrubMusic(e)}></input>
 						<div id="progress-bar"/>
+						<div id="selector"></div>
 					</div>
 					<div className="buttons-container">
-						<button className="music-controls" onClick={() => this.changeTrack(-1)}><PreviousTrack /></button>
+						<button className="music-controls svg-button" onClick={() => this.changeTrack(-1)}><PreviousTrack /></button>
 						{
 							this.props.isPlaying ?
-								<button className="music-controls" onClick={() => this.stopMusic()}><StopButton /></button> :
-								<button className="music-controls" onClick={() => this.startMusic()}><PlayButton /></button>
+								<button className="music-controls svg-button" onClick={() => this.stopMusic()}><StopButton /></button> :
+								<button className="music-controls svg-button" onClick={() => this.startMusic()}><PlayButton /></button>
 						}
-						<button className="music-controls" onClick={() => this.changeTrack(1)}><SkipTrack /></button>
+						<button className="music-controls svg-button" onClick={() => this.changeTrack(1)}><SkipTrack /></button>
 					</div>
 				</div>
 			</div>
