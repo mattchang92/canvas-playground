@@ -16,8 +16,6 @@ class Track extends React.Component {
 
 		this.props.selectTrack(this.props.index, this.props.track.album.images[0].url, this.props.track.id);
 		this.props.startPlaying();
-
-		console.log('this.props.track', this.props.track);
 	}
 
 

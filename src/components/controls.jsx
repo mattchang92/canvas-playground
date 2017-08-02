@@ -13,8 +13,12 @@ class Controls extends React.Component {
 			atomActive: false,
 			bubblesActive: false,
 			orbsActive: false,
-			visualizerActive: false,
+			visualizerActive: true,
 		}
+	}
+
+	componentDidMount() {
+		this.callbacks.startVisualizer();
 	}
 
 	toggleVisualizerMenu() {

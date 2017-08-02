@@ -3,10 +3,8 @@ import config from '../../config.json';
 
 const initialState = {
 	visualizerActive: true,
-	// playlists: [],
 	playlists: config.defaultPlaylist,
 	tracks: [],
-	// tracks: config.defaultTracks,
 	selectedPlaylist: undefined,
 	trackIndex: 0,
 	token: undefined,
