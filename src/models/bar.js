@@ -1,4 +1,4 @@
-import helpers from '../helpers';
+import helpers from '../modules/helpers';
 
 module.exports = (canvas, c) => {
 	return function Bar(x, y, width, color) {

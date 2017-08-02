@@ -1,20 +1,27 @@
 const when = require('when');
 const config = require('../config');
 
-import helpers from './helpers';
+import helpers from './modules/helpers';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/appContainer.jsx';
-import ModelsConstructors from './models/index';
+import ModelConstructors from './models/index';
 
-	// Initial Setup
+import callbackFunctions from './modules/callbackFunctions';
+// Set up canvas
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 
-let mouse = {
+// Set up mouse tracking
+const mouse = {
 	x: innerWidth / 2,
 	y: innerHeight / 2
 };
+
+addEventListener("mousemove", function(event) {
+	mouse.x = event.clientX;
+	mouse.y = event.clientY;
+});
 
 
 addEventListener("resize", function() {
@@ -29,21 +36,13 @@ addEventListener("resize", function() {
 	}
 });
 
-addEventListener("mousemove", function(event) {
-	mouse.x = event.clientX;
-	mouse.y = event.clientY;
-});
 
-const ctors = ModelsConstructors(canvas, c, mouse);
-
+const ctors = ModelConstructors(canvas, c, mouse);
 const ctx = new AudioContext();
-ctx.crossOrigin = 'anonymous';
-
 
 const audio = document.getElementById('myAudio');
 audio.crossOrigin = 'anonymous';
 const audioSrc = ctx.createMediaElementSource(audio);
-audioSrc.crossOrigin = 'anonymous';
 const analyser = ctx.createAnalyser();
 
 audioSrc.connect(analyser);
@@ -62,74 +61,6 @@ const Spark = ctors.spark;
 const Bar = ctors.bar;
 
 
-const addBall = () => {
-	data.circles.push(new Circle(100,100,80, 'blue'));
-}
-
-const createAtom = () => {
-	if (!data.atom) {
-		// adata.tom = new Atom(canvas.width/2, canvas.height/2, 15, '#FA942E')
-		data.atom = new Atom(canvas.width/2, canvas.height/2, 15, '#1AA4D1')
-		// data.atom = new Atom(canvas.width/2, canvas.height/2, 15, '#F2F3F4')
-	} else {
-		data.atom = null;
-	}
-}
-
-
-const startRainingOrbs = () => {
-	data.rainOrbs = !data.rainOrbs;
-}
-
-const startBubbles = () => {
-	data.makeBubbles = !data.makeBubbles;
-}
-
-
-const startVisualizer = () => {
-	if (!data.visualizer.length) {
-		for (let i = 0; i < 16; i++) {
-			data.visualizer.push(new Bar(i * (canvas.width/16), canvas.height, canvas.width/16, 'red'));
-		}
-	} else {
-		data.visualizer = [];
-	}
-}
-
-const toggleColor = () => {
-	if (data.visualizer.length) {
-		data.visualizer.forEach((bar) => (bar.toggleColor()));
-	}
-};
-
-const clearCanvas = () => {
-	data.circles = [];
-	data.visualizer = [];
-	data.atom = null;
-	data.makeBubbles = false;
-	data.rainOrbs = false;
-}
-
-const stopAnimation = () => {
-	if (data.animation) {
-		cancelAnimationFrame(data.animation);
-		data.animation = undefined;
-	}
-}
-
-const restartAnimation = () => {
-	if (!data.animation) animate();
-}
-
-const authenticateSpotify = () => {
-	const redirectUri = window.location.href.includes('localhost') ?
-		config.spotify.redirectUriClient.local : config.spotify.redirectUriClient.aws;
-
-	window.location.href = config.spotify.authUrl + '/?client_id=' + config.spotify.clientID +
-		'&response_type=token&redirect_uri=' + redirectUri + '&show_dialog=true',
-		'GET'
-}
-
 const urlParamsArray = window.location.href.includes('#') ?
 	window.location.href.split('#')[1].split('&') : undefined;
 
@@ -142,7 +73,6 @@ if (urlParamsArray) {
 	})
 }
 
-// Animation Loop
 const data = {
 	animation: undefined,
 	circles: [],
@@ -157,6 +87,7 @@ const data = {
 	visualizerData: [],
 }
 
+// Animation Loop
 function animate() {
 	data.timer++;
 	data.animation = requestAnimationFrame(animate);
@@ -278,31 +209,16 @@ function animate() {
 	}
 }
 
-
-
-
-const callbacks = {
-	startVisualizer,
-	authenticateSpotify,
-	startBubbles,
-	stopAnimation,
-	restartAnimation,
-	clearCanvas,
-	startRainingOrbs,
-	createAtom,
-	addBall,
-	toggleColor,
-}
-
+const callbacks = callbackFunctions(data, canvas, ctors)
 
 const options = {
 	audio,
 	data,
-	callbacks,
 	animate,
+	ctors,
+	callbacks,
 	token: urlParamsObj ? urlParamsObj.access_token : null,
 }
 
-// startVisualizer();
 
 ReactDOM.render(<App options={options}/>, document.getElementById('app'));

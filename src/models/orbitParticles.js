@@ -1,5 +1,5 @@
-const config = require('../constants');
-const helpers = require('../helpers');
+const config = require('../modules/constants');
+const helpers = require('../modules/helpers');
 
 
 module.exports = (canvas, c) => {

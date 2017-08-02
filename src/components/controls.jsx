@@ -2,15 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import uiActions from '../actions/uiActions';
 
-// @connect(
-// 	undefined,
-// 	(dispatch) => ({
-// 		toggleVisualizer: () => {
-// 			dispatch(uiActions.toggleVisualizer());
-// 		},
-// 	})
-// )
-
 
 class Controls extends React.Component {
 	constructor(props) {
