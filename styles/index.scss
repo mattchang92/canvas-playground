@@ -5,6 +5,23 @@ body {
 	// font-family: avenir;
 	font-family: 'Montserrat', sans-serif;
 
+	button.svg-button {
+		background-color: rgba(0,0,0,0);
+		z-index: 0;
+
+
+		&:hover {
+			transform: scale(1.05);
+			svg {
+				color: #2ebd59;
+			}
+		}
+
+		outline: none !important;
+		border: none !important;
+	}
+
+
 	a.main-controls {
 		color: white;
 		position: relative;
@@ -48,17 +65,9 @@ body {
 	svg {
 		color: #A0A0A0;
 
-		// &.back-button {
-		// 	position: absolute;
-		// 	left: 25px;
-		// 	top: 25px;
-		// }
-
 		&:hover {
 			stroke-width: 1;
-			// color: white;
 			stroke: #2ebd59;
-			// opacity: 0.8;
 		}
 	}
 }
@@ -74,6 +83,12 @@ div {
 
 .root {
 	position: absolute;
+}
+
+@-moz-document url-prefix() {
+	div.tracks-area {
+		width: 102% !important;
+	}
 }
 
 .visualizer-container {
@@ -102,7 +117,8 @@ div {
 		border-bottom: thin solid #A0A0A0;
 		color: white;
 		font-weight: 50;
-		overflow: scroll;
+		overflow-y: scroll;
+		overflow-x: hidden;
 
 		.playlists-container {
 			text-align: center;
@@ -189,13 +205,15 @@ div {
 		button.music-controls {
 			width: 75px;
 			height: 75px;
-			visibility: hidden;
+			background-color: rgba(0,0,0,0);
 			padding: 0;
 			border: 0;
 			margin: 1px;
 
-			svg {
-				visibility: visible;
+			&:hover {
+				svg {
+					color: #2ebd59;
+				}
 			}
 		}
 
@@ -225,7 +243,6 @@ div {
 		button {
 			// flex: 1;
 			width: 10%;
-			visibility: hidden;
 			padding: 0;
 			border: 0;
 			margin: 1px;
@@ -235,11 +252,6 @@ div {
 			}
 		}
 	}
-
-	button.svg-button:hover {
-		transform: scale(1.05);
-	}
-
 
 	div.progress-background {
 		position: absolute;
