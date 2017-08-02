@@ -8,6 +8,9 @@ body {
     z-index: 0;
     outline: none !important;
     border: none !important; }
+    body button.svg-button.back-button {
+      width: 35px;
+      margin: 15px; }
     body button.svg-button:hover {
       -webkit-transform: scale(1.05);
               transform: scale(1.05); }

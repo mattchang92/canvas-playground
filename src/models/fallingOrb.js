@@ -12,7 +12,6 @@ module.exports = (canvas, c) => {
 		this.bounces = 0;
 
 		this.update = (visualizer) => {
-
 			this.dy += config.GRAVITY;
 			this.x += this.dx;
 			this.y += this.dy;

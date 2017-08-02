@@ -98,7 +98,6 @@ class VisualizerContainer extends React.Component {
 			audioElement.play();
 			this.props.selectTrack(index + type, nextTrack.track.album.images[0].url, nextTrack.track.id);
 		}
-		console.log('nexttrack', nextTrack);
 	}
 
 	scrubMusic(e) {
@@ -110,7 +109,7 @@ class VisualizerContainer extends React.Component {
 		return (
 			<div className={this.props.visualizerActive ? "active visualizer-container" : "visualizer-container"}>
 				<div className="top-bar">
-					<button className="svg-button" onClick={() => this.goBack()}>
+					<button className="svg-button back-button" onClick={() => this.goBack()}>
 						<ArrowLeft/>
 					</button>
 					<div>
