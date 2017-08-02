@@ -110,6 +110,8 @@ const animation = (options) => {
 		if (data.visualizerData.length) {
 			data.visualizerData[0] = data.visualizerData[0] * 0.7;
 			data.visualizerData[1] = data.visualizerData[1] * 0.85;
+			data.visualizerData[2] = data.visualizerData[2] * 0.9;
+			data.visualizerData[3] = data.visualizerData[3] * 0.95;
 		}
 
 		if (data.atom) {

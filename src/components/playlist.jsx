@@ -11,7 +11,6 @@ class Playlist extends React.Component {
 
 	handleClick() {
 		this.props.selectPlaylist(this.props.playlist.id);
-		// document.getElementsByClassName('tracks-area')[0].scrollTop = 0;
 	}
 
 	render() {
