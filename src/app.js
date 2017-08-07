@@ -19,11 +19,24 @@ const mouse = {
 	y: innerHeight / 2
 };
 
+const ctors = ModelConstructors(canvas, c, mouse);
+const ctx = new AudioContext();
+const audio = document.getElementById('myAudio');
+const audioSrc = ctx.createMediaElementSource(audio);
+const analyser = ctx.createAnalyser();
+const frequencyData = new Uint8Array(analyser.frequencyBinCount);
+
+audioSrc.connect(analyser);
+analyser.connect(ctx.destination);
+
+audio.crossOrigin = 'anonymous';
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
 addEventListener("mousemove", function(event) {
 	mouse.x = event.clientX;
 	mouse.y = event.clientY;
 });
-
 
 addEventListener("resize", function() {
 	canvas.width = innerWidth;
@@ -37,23 +50,7 @@ addEventListener("resize", function() {
 	}
 });
 
-
-const ctors = ModelConstructors(canvas, c, mouse);
-const ctx = new AudioContext();
-
-const audio = document.getElementById('myAudio');
-audio.crossOrigin = 'anonymous';
-const audioSrc = ctx.createMediaElementSource(audio);
-const analyser = ctx.createAnalyser();
-
-audioSrc.connect(analyser);
-analyser.connect(ctx.destination);
-
-const frequencyData = new Uint8Array(analyser.frequencyBinCount);
-
-canvas.width = innerWidth;
-canvas.height = innerHeight;
-
+// Fetches token data from url if redirected from Spotify auth
 const urlParamsArray = window.location.href.includes('#') ?
 	window.location.href.split('#')[1].split('&') : undefined;
 

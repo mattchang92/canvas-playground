@@ -36,7 +36,7 @@ class VisualizerContainer extends React.Component {
 		return this.props.tracks && this.props.tracks.length ?
 			this.props.tracks.map((item, index) => {
 				return <Track index={index} key={item.track.id} track={item.track} audio={this.audio}/>
-			}) : <h1>No tracks found</h1>
+			}) : <div>No tracks found</div>
 	}
 
 	componentDidMount() {

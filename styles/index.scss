@@ -138,8 +138,8 @@ div {
 
 			&.inactive {
 				left: -100%;
-				animation: slideLeftOut 0.5s 1;
-				animation-fill-mode: forwards;
+				// animation: slideLeftOut 0.5s 1;
+				// animation-fill-mode: forwards;
 
 				.playlist {
 					// border-right: none;
@@ -169,14 +169,16 @@ div {
 			position: absolute;
 			display: flex;
 			flex-direction: column;
+			transition: left 0.5s ease;
 
 			div.is-playing {
 				color: #2ebd59;
 			}
 
 			&.active {
-				animation: slideLeftIn 0.5s 1;
-				animation-fill-mode: forwards;
+				left: 0%;
+				// animation: slideLeftIn 0.5s 1;
+				// animation-fill-mode: forwards;
 			}
 
 			.playlist {
@@ -326,7 +328,7 @@ a#do-toggle-visualizer {
 
 @keyframes slideLeftIn {
 	0% {
-		left: %100;
+		left: 100%;
 	}
 	100% {
 		left: 0;

@@ -109,11 +109,7 @@ div {
       .visualizer-container div.tracks-area .playlists-container h1 {
         margin: 20px auto; }
       .visualizer-container div.tracks-area .playlists-container.inactive {
-        left: -100%;
-        -webkit-animation: slideLeftOut 0.5s 1;
-                animation: slideLeftOut 0.5s 1;
-        -webkit-animation-fill-mode: forwards;
-                animation-fill-mode: forwards; }
+        left: -100%; }
       .visualizer-container div.tracks-area .playlists-container .playlist {
         width: 90%;
         height: 100%;
@@ -135,14 +131,12 @@ div {
       -webkit-box-orient: vertical;
       -webkit-box-direction: normal;
           -ms-flex-direction: column;
-              flex-direction: column; }
+              flex-direction: column;
+      transition: left 0.5s ease; }
       .visualizer-container div.tracks-area .songs-container div.is-playing {
         color: #2ebd59; }
       .visualizer-container div.tracks-area .songs-container.active {
-        -webkit-animation: slideLeftIn 0.5s 1;
-                animation: slideLeftIn 0.5s 1;
-        -webkit-animation-fill-mode: forwards;
-                animation-fill-mode: forwards; }
+        left: 0%; }
       .visualizer-container div.tracks-area .songs-container .playlist {
         width: 90%;
         height: 50px;
@@ -247,13 +241,13 @@ a#do-toggle-visualizer {
 
 @-webkit-keyframes slideLeftIn {
   0% {
-    left: % 100; }
+    left: 100%; }
   100% {
     left: 0; } }
 
 @keyframes slideLeftIn {
   0% {
-    left: % 100; }
+    left: 100%; }
   100% {
     left: 0; } }
 
