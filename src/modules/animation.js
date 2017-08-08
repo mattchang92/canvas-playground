@@ -4,6 +4,16 @@ const animation = (options) => {
 	const Bubble = ctors.bubble;
 	const FallingOrb = ctors.fallingOrb;
 	const Spark = ctors.spark;
+	const orbsBrowserConfig = {
+		chrome: {
+			orbSpawnDelay: 40,
+			sparksSpawnRate: 8,
+		},
+		other: {
+			orbSpawnDelay: 80,
+			sparksSpawnRate: 4,
+		},
+	};
 
 	const animate = () => {
 		data.timer++;
@@ -37,16 +47,18 @@ const animation = (options) => {
 			const color = Math.floor(3 * Math.random());
 
 			data.bubbles.push(new Bubble(50, color));
-			data.bubbles.forEach((bubble) => {
-				bubble.update();
-				if (bubble.destroy()) {
+			for (let i = 0; i < data.bubbles.length; i++) {
+				data.bubbles[i].update();
+				if (data.bubbles[i].destroy()) {
 					data.bubbles.shift();
 				}
-			})
+			}
 		}
 
+		const orbConfig = navigator.userAgent.includes('Chrome') ? orbsBrowserConfig.chrome : orbsBrowserConfig.other;
+
 		// Create raining orbs at a set interbval
-		if ((data.timer % 40 === 0) && data.rainOrbs) {
+		if ((data.timer % orbConfig.orbSpawnDelay === 0) && data.rainOrbs) {
 			const x = Math.random() * canvas.width;
 			const y = -200;
 			const dx = 6 * Math.random() - 3;
@@ -61,18 +73,18 @@ const animation = (options) => {
 			});
 
 			// Generate 'sparks' on contact with floor or visualizer bar
-			data.orbs.forEach((orb) => {
-				orb.update(data.visualizer);
-				if (orb.bounces) {
-					orb.bounces--;
-					const sparksNumber = 8 * Math.random() + 8;
-					for (let i = 0; i < sparksNumber; i++) {
+			for (let i = 0; i < data.orbs.length; i++) {
+				data.orbs[i].update(data.visualizer);
+				if (data.orbs[i].bounces) {
+					data.orbs[i].bounces--;
+					const sparksNumber = orbConfig.sparksSpawnRate * Math.random() + orbConfig.sparksSpawnRate;
+					for (let j = 0; j < sparksNumber; j++) {
 						const dx = 8 * Math.random() - 4;
-						const dy = Math.random() * orb.dy;
-						data.sparks.push(new Spark(orb.x, orb.y, dx, dy))
+						const dy = Math.random() * data.orbs[i].dy;
+						data.sparks.push(new Spark(data.orbs[i].x, data.orbs[i].y, dx, dy))
 					}
 				}
-			})
+			}
 		}
 
 		// Remove all sparks that are underneath the floor/bars
@@ -81,9 +93,9 @@ const animation = (options) => {
 				return !spark.contactSurface(data.visualizer);
 			});
 
-			data.sparks.forEach((spark) => {
-				spark.update(data.visualizer);
-			})
+			for (let i = 0; i < data.sparks.length; i++) {
+				data.sparks[i].update(data.visualizer);
+			}
 		}
 
 		// Fetch updated frequency data of current playing song
