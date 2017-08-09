@@ -25,22 +25,7 @@ module.exports = (canvas, c) => {
 			new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (80 * (Math.PI/180)), -1, -1),
 			new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (80 * (Math.PI/180)), 1 , 1),
 			new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (240 * (Math.PI/180)), -1 , -1),
-
-			// new Particle(canvas.width/2, canvas.height/2, 150, 300, 5, 0, 1, 1, 0.05),
-			// new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, 0, 1, 1, 0.05),
-			// new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (80 * (Math.PI/180)), 1 , 1, 0.05),
-			// new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (80 * (Math.PI/180)), -1, -1, 0.05),
-			// new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (240 * (Math.PI/180)), -1 , -1, 0.05),
-
-			// new Particle(canvas.width/2, canvas.height/2, 150, 300, 5, 0, 1, 1, 0.1),
-			// new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, 0, 1, 1, 0.1),
-			// new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (80 * (Math.PI/180)), 1 , 1, 0.1),
-			// new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (80 * (Math.PI/180)), -1, -1, 0.1),
-			// new Particle(canvas.width/2, canvas.height/2, 300, 150, 5, (240 * (Math.PI/180)), -1 , -1, 0.1),
-
 		];
-
-// new Particle(canvas.width/2, canvas.height/2, 50, 100, 2, '#F2F3F4')
 
 		this.update = (timer) => {
 			const delayedTimer = delays.map((delay) => {

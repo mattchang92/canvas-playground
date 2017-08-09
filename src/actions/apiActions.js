@@ -8,7 +8,7 @@ const actions = {
 			return fetch(getRequest(credentials, config.spotify.baseUrl + config.spotify.playlistsIndexEndpoint, 'GET'))
 				.then((response) => {
 					if (!response.ok) {
-						// getErrors(response).then((error) => dispatch(loginFailed(error)));
+						console.log('Error fetching playlists');
 					} else {
 						response.json().then((result) => {
 							dispatch(uiActions.updatePlaylists(result.items))
@@ -22,9 +22,7 @@ const actions = {
 			return fetch(getRequest(credentials, config.spotify.baseUrl + config.spotify.me, 'GET'))
 				.then((response) => {
 					response.json().then((result) => {
-						// console.log('me', result);
 						dispatch(uiActions.setUserId(result.id))
-						// dispatch(uiActions.updatePlaylists(result.items))
 					});
 				});
 		}
@@ -71,20 +69,5 @@ const getHeaders = (token) => {
 
 	return headers;
 };
-
-
-// const serverUrl = 'http://localhost:9000/'
-//
-// const keys = {
-// 	APIAccessID: 'testid',
-// 	APIAccessSecret: 'secret'
-// };
-//
-// const authenticateSpotify = () => {
-// 	return fetch(getRequest({hello: 'world'}, (serverUrl + 'api/authenticate-spotify'), 'POST'))
-//
-// 	// return (fetch('api/authenticate-spotify', {hello: 'world'}));
-// }
-
 
 export default actions;

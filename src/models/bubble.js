@@ -13,8 +13,6 @@ module.exports = (canvas, c, mouse) => {
 		this.dx = 6 * Math.random() - 3;
 		this.dy = 6 * Math.random() - 3;
 
-// new Particle(canvas.width/2, canvas.height/2, 50, 100, 2, '#F2F3F4')
-
 		this.update = () => {
 			this.x += this.dx;
 			this.y += this.dy;

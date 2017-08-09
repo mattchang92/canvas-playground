@@ -23,25 +23,13 @@ module.exports = (canvas, c) => {
 
 		this.draw = () => {
 			const ratio = this.height / canvas.height;
-
-			//gold
-			// const color = helpers.getColorGold(ratio);
-
-			//green/red
-			// const color = helpers.getColorRG(ratio);
-
 			const color = this.colorSet(ratio);
 
 			c.beginPath();
 			c.rect(this.x, this.y, this.width, -this.height);
-
-
 			c.fillStyle = color;
 			c.shadowColor = color;
 			c.shadowBlur = 50;
-			// c.fillStyle = this.color;
-			// c.shadowColor = this.color;
-			// c.shadowBlur = 50;
 			c.fill();
 			c.closePath();
 		};

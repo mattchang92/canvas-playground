@@ -106,7 +106,6 @@ module.exports = (canvas, c, mouse) => {
 			vThis.y = this.y + 2* this.dy;
 
 			return helpers.distance((vObj.x - vThis.x), (vObj.y - vThis.y)) < (this.radius + obj.radius)
-			// helpers.distance((obj.x - this.x), (obj.y - this.y)) < (this.radius + obj.radius)
 		};
 
 		this.isOnFloor = () => {
