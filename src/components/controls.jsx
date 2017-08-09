@@ -58,13 +58,48 @@ class Controls extends React.Component {
 	render() {
 		return (
 			<div>
-				<a className={this.state.atomActive ? "main-controls active" : "main-controls"} id="do-add-atom" onClick={this.toggleAtom.bind(this)}>Add Atom</a>
-				<a className={this.state.bubblesActive ? "main-controls active" : "main-controls"} id="do-make-bubbles" onClick={this.toggleBubbles.bind(this)}>Make bubbles</a>
-				<a className={this.state.orbsActive ? "main-controls active" : "main-controls"} id="do-make-orb" onClick={this.toggleOrbs.bind(this)}>Start raining orbs</a>
-				<a className={this.state.visualizerActive ? "main-controls active" : "main-controls"} id="do-start-visualizer" onClick={this.toggleVisualizer.bind(this)}>Visualizer (requires music)</a>
-				<a className="main-controls" id="do-clear-canvas" onClick={this.clearCanvas.bind(this)}>Clear Canvas</a>
-				<a className="main-controls" id="do-connect-spotify" onClick={this.callbacks.authenticateSpotify.bind(this.callbacks)}>Connect With Spotify</a>
-				<a id="do-toggle-visualizer" className={this.props.visualizerActive ? 'hidden main-controls' : 'main-controls'} onClick={() => this.toggleVisualizerMenu()}>Music Menu</a>
+				<a
+					className={this.state.atomActive ? "main-controls active" : "main-controls"}
+					onClick={this.toggleAtom.bind(this)}
+				>
+					Add Atom
+				</a>
+				<a
+					className={this.state.bubblesActive ? "main-controls active" : "main-controls"}
+					onClick={this.toggleBubbles.bind(this)}
+				>
+					Make bubbles
+				</a>
+				<a
+					className={this.state.orbsActive ? "main-controls active" : "main-controls"} 
+					onClick={this.toggleOrbs.bind(this)}
+				>
+					Start raining orbs
+				</a>
+				<a
+					className={this.state.visualizerActive ? "main-controls active" : "main-controls"}
+					onClick={this.toggleVisualizer.bind(this)}
+				>
+					Visualizer (requires music)
+				</a>
+				<a
+					className="main-controls"
+					onClick={this.clearCanvas.bind(this)}
+				>
+					Clear Canvas
+				</a>
+				<a
+					className="main-controls"
+					onClick={this.callbacks.authenticateSpotify.bind(this.callbacks)}
+				>
+					Connect With Spotify
+				</a>
+				<a
+					className={this.props.visualizerActive ? 'hidden main-controls' : 'main-controls'}
+					onClick={() => this.toggleVisualizerMenu()}
+				>
+					Music Menu
+				</a>
 			</div>
 		)
 	}
