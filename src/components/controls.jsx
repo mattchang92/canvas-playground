@@ -71,7 +71,7 @@ class Controls extends React.Component {
 					Make bubbles
 				</a>
 				<a
-					className={this.state.orbsActive ? "main-controls active" : "main-controls"} 
+					className={this.state.orbsActive ? "main-controls active" : "main-controls"}
 					onClick={this.toggleOrbs.bind(this)}
 				>
 					Start raining orbs
@@ -95,6 +95,7 @@ class Controls extends React.Component {
 					Connect With Spotify
 				</a>
 				<a
+					id="do-toggle-visualizer"
 					className={this.props.visualizerActive ? 'hidden main-controls' : 'main-controls'}
 					onClick={() => this.toggleVisualizerMenu()}
 				>

@@ -5,7 +5,6 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
 import Controls from './controls.jsx';
-import MusicPlayer from './musicPlayer.jsx';
 import VisualizerContainer from './visualizerContainer.jsx';
 
 import uiState from '../reducers/uiState';

@@ -33,23 +33,6 @@ audio.crossOrigin = 'anonymous';
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 
-addEventListener("mousemove", function(event) {
-	mouse.x = event.clientX;
-	mouse.y = event.clientY;
-});
-
-addEventListener("resize", function() {
-	canvas.width = innerWidth;
-	canvas.height = innerHeight;
-
-	if (data.visualizer.length) {
-		data.visualizer = [];
-		for (let i = 0; i < 16; i++) {
-			data.visualizer.push(new Bar(i * (canvas.width/16), canvas.height, canvas.width/16, 'red'));
-		}
-	}
-});
-
 // Fetches token data from url if redirected from Spotify auth
 const urlParamsArray = window.location.href.includes('#') ?
 	window.location.href.split('#')[1].split('&') : undefined;
@@ -91,5 +74,20 @@ const options = {
 	callbacks,
 	token: urlParamsObj ? urlParamsObj.access_token : null,
 }
+
+addEventListener("mousemove", function(event) {
+	mouse.x = event.clientX;
+	mouse.y = event.clientY;
+});
+
+addEventListener("resize", function() {
+	canvas.width = innerWidth;
+	canvas.height = innerHeight;
+
+	if (data.visualizer.length) {
+		data.visualizer = [];
+		callbacks.startVisualizer();
+	}
+});
 
 ReactDOM.render(<App options={options}/>, document.getElementById('app'));

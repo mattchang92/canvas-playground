@@ -6,7 +6,8 @@ import uiActions from '../actions/uiActions';
 
 import Playlist from './playlist.jsx';
 import Track from './track.jsx';
-import { ArrowLeft, PlayButton, StopButton, SkipTrack, PreviousTrack } from '../../assets/icons.jsx';
+import PlaybackControls from './playbackControls.jsx';
+import { ArrowLeft } from '../../assets/icons.jsx';
 
 
 class VisualizerContainer extends React.Component {
@@ -19,24 +20,6 @@ class VisualizerContainer extends React.Component {
 		this.state = {
 			timeTracker: undefined,
 		}
-	}
-
-	componentWillUnmount() {
-		clearInterval(this.state.timeTracker);
-	}
-
-	displayPlaylists() {
-		return this.props.playlists && this.props.playlists.length ?
-			this.props.playlists.map((playlist, index) => {
-				return <Playlist key={playlist.id} playlist={playlist}/>
-			}) : <h1>No playlists found</h1>
-	}
-
-	displayTracks() {
-		return this.props.tracks && this.props.tracks.length ?
-			this.props.tracks.map((item, index) => {
-				return <Track index={index} key={item.track.id} track={item.track} audio={this.audio}/>
-			}) : <div>No tracks found</div>
 	}
 
 	componentDidMount() {
@@ -62,6 +45,24 @@ class VisualizerContainer extends React.Component {
 				}, 100)
 			})
 		}
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.state.timeTracker);
+	}
+
+	displayPlaylists() {
+		return this.props.playlists && this.props.playlists.length ?
+			this.props.playlists.map((playlist, index) => {
+				return <Playlist key={playlist.id} playlist={playlist}/>
+			}) : <h1>No playlists found</h1>
+	}
+
+	displayTracks() {
+		return this.props.tracks && this.props.tracks.length ?
+			this.props.tracks.map((item, index) => {
+				return <Track index={index} key={item.track.id} track={item.track} audio={this.audio}/>
+			}) : null;
 	}
 
 	goBack() {
@@ -124,23 +125,14 @@ class VisualizerContainer extends React.Component {
 						{this.displayTracks()}
 					</div>
 				</div>
-				<div className="spotify-controls">
-					<img  className="album-artwork" src={this.props.albumArt ? this.props.albumArt : '/assets/spotify.png'}></img>
-					<div className="progress-background">
-						<input type="range" className="invisible-slider" onChange={(e) => this.scrubMusic(e)}></input>
-						<div id="progress-bar"/>
-						<div id="selector"></div>
-					</div>
-					<div className="buttons-container">
-						<button className="music-controls svg-button" onClick={() => this.changeTrack(-1)}><PreviousTrack /></button>
-						{
-							this.props.isPlaying ?
-								<button className="music-controls svg-button" onClick={() => this.stopMusic()}><StopButton /></button> :
-								<button className="music-controls svg-button" onClick={() => this.startMusic()}><PlayButton /></button>
-						}
-						<button className="music-controls svg-button" onClick={() => this.changeTrack(1)}><SkipTrack /></button>
-					</div>
-				</div>
+				<PlaybackControls
+					albumArt={this.props.albumArt}
+					isPlaying={this.props.isPlaying}
+					scrubMusic={this.scrubMusic.bind(this)}
+					changeTrack={this.changeTrack.bind(this)}
+					stopMusic={this.stopMusic.bind(this)}
+					startMusic={this.startMusic.bind(this)}
+				/>
 			</div>
 		)
 	}
