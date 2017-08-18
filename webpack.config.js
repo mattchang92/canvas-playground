@@ -41,7 +41,7 @@ module.exports = {
 		new ExtractTextPlugin("../css/style.css"),
 		new BrowserSyncPlugin({
 			host: 'localhost',
-			port: 3000,
+			port: 3004,
 			server: { baseDir: ['./'] },
 			files: ['./dist/*']
 		}),
