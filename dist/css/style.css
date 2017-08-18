@@ -3,11 +3,59 @@ body {
   background-color: #1E1E1E;
   overflow: hidden;
   font-family: 'Montserrat', sans-serif; }
+  body .loading-spinner {
+    position: absolute;
+    top: 46vh;
+    left: 46vw;
+    height: 8vw;
+    width: 8vw;
+    margin: auto;
+    -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite; }
+  body .loading-message {
+    color: #A0A0A0;
+    position: fixed;
+    width: 16vw;
+    left: 42vw;
+    top: 62vh;
+    text-align: center;
+    -webkit-animation: bounce 0.75s linear infinite;
+            animation: bounce 0.75s linear infinite; }
+
+@-webkit-keyframes bounce {
+  0% {
+    top: 62vh; }
+  50% {
+    top: 60vh; }
+  100% {
+    top: 62vh; } }
+
+@keyframes bounce {
+  0% {
+    top: 62vh; }
+  50% {
+    top: 60vh; }
+  100% {
+    top: 62vh; } }
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); } }
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); } }
   body button.svg-button {
     background-color: transparent;
-    z-index: 0;
-    outline: none !important;
-    border: none !important; }
+    z-index: 0; }
     body button.svg-button.back-button {
       width: 35px;
       margin: 15px; }
@@ -238,29 +286,5 @@ a#do-toggle-visualizer {
   transition: top 1s; }
   a#do-toggle-visualizer.hidden {
     top: -40px; }
-
-@-webkit-keyframes slideLeftIn {
-  0% {
-    left: 100%; }
-  100% {
-    left: 0; } }
-
-@keyframes slideLeftIn {
-  0% {
-    left: 100%; }
-  100% {
-    left: 0; } }
-
-@-webkit-keyframes slideLeftOut {
-  0% {
-    left: 0; }
-  100% {
-    left: -50%; } }
-
-@keyframes slideLeftOut {
-  0% {
-    left: 0; }
-  100% {
-    left: -50%; } }
 
 /*# sourceMappingURL=style.css.map*/

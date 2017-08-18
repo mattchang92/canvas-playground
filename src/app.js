@@ -75,12 +75,12 @@ const options = {
 	token: urlParamsObj ? urlParamsObj.access_token : null,
 }
 
-addEventListener("mousemove", function(event) {
+addEventListener("mousemove", (event) => {
 	mouse.x = event.clientX;
 	mouse.y = event.clientY;
 });
 
-addEventListener("resize", function() {
+addEventListener("resize", () => {
 	canvas.width = innerWidth;
 	canvas.height = innerHeight;
 

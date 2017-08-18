@@ -5,6 +5,47 @@ body {
 	// font-family: avenir;
 	font-family: 'Montserrat', sans-serif;
 
+	.loading-spinner {
+		position: absolute;
+		top: 46vh;
+		left: 46vw;
+		height: 8vw;
+		width: 8vw;
+		margin: auto;
+		animation: spin 2s linear infinite;
+	}
+
+	.loading-message {
+		color: #A0A0A0;
+		position: fixed;
+		width: 16vw;
+		left: 42vw;
+		top: 62vh;
+		text-align: center;
+		animation: bounce 0.75s linear infinite;
+	}
+
+	@keyframes bounce {
+		0% {
+			top: 62vh;
+		}
+		50% {
+			top: 60vh;
+		}
+		100% {
+			top: 62vh;
+		}
+	}
+
+	@keyframes spin {
+		0% {
+			transform: rotate(0deg)
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+
 	button.svg-button {
 		background-color: rgba(0,0,0,0);
 		z-index: 0;
@@ -21,8 +62,6 @@ body {
 			}
 		}
 
-		outline: none !important;
-		border: none !important;
 	}
 
 
@@ -177,8 +216,6 @@ div {
 
 			&.active {
 				left: 0%;
-				// animation: slideLeftIn 0.5s 1;
-				// animation-fill-mode: forwards;
 			}
 
 			.playlist {
@@ -193,7 +230,6 @@ div {
 
 				&:hover {
 					opacity: 0.8;
-					// font-size: 1.1em;
 					background-color: #515151;
 					transition: all 0.3s;
 				}
@@ -323,23 +359,5 @@ a#do-toggle-visualizer {
 
 	&.hidden {
 		top: -40px;
-	}
-}
-
-@keyframes slideLeftIn {
-	0% {
-		left: 100%;
-	}
-	100% {
-		left: 0;
-	}
-}
-
-@keyframes slideLeftOut {
-	0% {
-		left: 0;
-	}
-	100% {
-		left: -50%;
 	}
 }
