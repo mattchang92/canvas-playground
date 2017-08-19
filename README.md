@@ -6,10 +6,10 @@ A simple music visualizer single page app to practice canvas, React and Redux ut
 
 [Link](http://canvas-playground.s3-website.ca-central-1.amazonaws.com/)
 
-Only tested on Chrome and Firefox on OS X. Currently working on canvas performance issues on Firefox. It has not been tested on Windows/EDGE and there isn't as of yet support for the AudioContext web API on Safari.
+Tested on Chrome and Firefox on OS X. It has not been tested on Windows/Edge and there isn't as of yet support for the AudioContext web API on Safari.
 
 ## Todo List
-- [ ] Improve Firefox Performance
+- [x] Improve Firefox Performance
 - [ ] Disable audio for Safari to allow basic canvas functionality
 - [ ] Refactor large components
 - [ ] Rewrite models as ES6 classes
