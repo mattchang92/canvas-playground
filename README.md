@@ -4,7 +4,7 @@ A simple music visualizer single page app to practice canvas, React and Redux ut
 
 ## Deployed link
 
-[Link](http://canvas-playground.s3-website.ca-central-1.amazonaws.com/)
+[Link](http://music.mattchang.ca/)
 
 Tested on Chrome and Firefox on OS X. It has not been tested on Windows/Edge and there isn't as of yet support for the AudioContext web API on Safari.
 
